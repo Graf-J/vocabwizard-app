@@ -8,17 +8,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.graf.vocab_wizard_app.R
+import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.databinding.FragmentLoginBinding
+import com.graf.vocab_wizard_app.viewmodel.login.LoginResult
+import com.graf.vocab_wizard_app.viewmodel.login.LoginViewModel
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private var _binding: FragmentLoginBinding? = null;
     private val binding get() = _binding!!;
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -78,9 +81,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             val isPasswordValid = validatePassword(binding.loginPasswordTextInput, binding.loginPasswordLayout)
 
             if (isUsernameValid && isPasswordValid) {
-                Log.d("Graf", "Login Success!")
-            } else {
-                Log.d("Graf", "Login Error!")
+                val name = binding.loginNameTextInput.text.toString()
+                val password = binding.loginPasswordTextInput.text.toString()
+                login(name, password)
             }
         }
     }
@@ -109,5 +112,37 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 true
             }
         }
+    }
+
+    private fun login(name: String, password: String) {
+        loginViewModel.loginLiveData.observe(viewLifecycleOwner) {
+            when(it) {
+                is LoginResult.LOADING -> {
+                    // Disable Button
+                    binding.submitLoginButton.isEnabled = false
+                    // Reset Error Message
+                    binding.loginErrorText.visibility = View.VISIBLE
+                    binding.loginErrorText.text = ""
+                }
+                is LoginResult.ERROR -> {
+                    // Show Error Message
+                    binding.loginErrorText.visibility = View.VISIBLE
+                    binding.loginErrorText.text = it.message
+                    // Enable Button
+                    binding.submitLoginButton.isEnabled = true
+                }
+                is LoginResult.SUCCESS -> {
+                    // Enable Button
+                    binding.submitLoginButton.isEnabled = true
+                    // Navigate to Deck Overview
+                    view?.let {innerIt ->
+                        Navigation.findNavController(innerIt)
+                            .navigate(R.id.action_loginFragment_to_deckOverviewFragment)
+                    }
+                }
+            }
+        }
+
+        loginViewModel.login(LoginRequestDto(name, password))
     }
 }

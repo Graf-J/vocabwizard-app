@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VocabWizard</string>
+    <string name="login">Einloggen</string>
+    <string name="register">Registrieren</string>
+    <string name="enter_name">Name eingeben</string>
+    <string name="enter_password">Passwort eingeben</string>
+    <string name="no_account">Kein Account?</string>
+    <string name="register_now">Jetzt registrieren</string>
+    <string name="submit">Bestätigen</string>
+</resources>
