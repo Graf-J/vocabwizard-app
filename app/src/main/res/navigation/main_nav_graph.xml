@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/deckOverviewFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_loginFragment_to_deckOverviewFragment"
+            app:destination="@id/deckOverviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.RegisterFragment"
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_registerFragment_to_deckOverviewFragment"
+            app:destination="@id/deckOverviewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deckOverviewFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.DeckOverviewFragment"
+        android:label="DeckOverviewFragment" >
+        <action
+            android:id="@+id/action_deckOverviewFragment_to_createDeckFragment"
+            app:destination="@id/createDeckFragment" />
+        <action
+            android:id="@+id/action_deckOverviewFragment_to_updateDeckFragment"
+            app:destination="@id/updateDeckFragment" />
+        <action
+            android:id="@+id/action_deckOverviewFragment_to_learnFragment"
+            app:destination="@id/learnFragment" />
+        <action
+            android:id="@+id/action_deckOverviewFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateDeckFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.UpdateDeckFragment"
+        android:label="UpdateDeckFragment" />
+    <fragment
+        android:id="@+id/learnFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.LearnFragment"
+        android:label="LearnFragment" />
+    <fragment
+        android:id="@+id/createDeckFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.CreateDeckFragment"
+        android:label="CreateDeckFragment" />
+</navigation>
