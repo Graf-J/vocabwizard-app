@@ -1,21 +1,19 @@
 package com.graf.vocab_wizard_app.viewmodel.login
 
-import android.util.Log
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.graf.vocab_wizard_app.api.auth.AuthRepository
 import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
+import com.graf.vocab_wizard_app.ui.MainActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import java.lang.Exception
 
 class LoginViewModel : ViewModel() {
     private val _loginLiveData: MutableLiveData<LoginResult> = MutableLiveData(LoginResult.LOADING)
@@ -33,12 +31,18 @@ class LoginViewModel : ViewModel() {
                 if (response.isSuccessful) {
                     val loginResult = response.body()
                     loginResult?.let {
+                        // Save Token to Shared Preferences
+                        val sharedPref = MainActivity.activityContext().getSharedPreferences("Auth", Context.MODE_PRIVATE)
+                        with (sharedPref.edit()) {
+                            putString("AccessToken", it.accessToken)
+                            apply()
+                        }
+
                         _loginLiveData.postValue(LoginResult.SUCCESS(it.accessToken))
                     } ?: run {
                         _loginLiveData.postValue(LoginResult.ERROR(response.code(), "Null object"))
                     }
                 } else {
-                    // _loginLiveData.postValue(LoginResult.ERROR(response.code(), response.message()))
                     // Parse JSON if Login Fails
                     val gson = Gson()
                     val type = object : TypeToken<ErrorResponseDto>(){}.type

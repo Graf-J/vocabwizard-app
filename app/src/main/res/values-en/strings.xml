@@ -3,6 +3,7 @@
     <string name="app_name">VocabWizard</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="required">Required</string>
     <string name="enter_name">Enter Name</string>
     <string name="enter_password">Enter Password</string>
     <string name="no_account">No account?</string>

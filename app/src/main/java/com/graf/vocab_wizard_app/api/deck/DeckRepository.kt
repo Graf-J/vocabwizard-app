@@ -1,4 +1,4 @@
-package com.graf.vocab_wizard_app.api.auth
+package com.graf.vocab_wizard_app.api.deck
 
 import com.graf.vocab_wizard_app.api.interceptor.JwtInterceptor
 import com.graf.vocab_wizard_app.config.AppConfig
@@ -10,26 +10,28 @@ import retrofit2.Retrofit
 import retrofit2.Callback
 import retrofit2.converter.gson.GsonConverterFactory
 
-class AuthRepository {
-    private val authApi: AuthApi
+class DeckRepository {
+    private val deckApi: DeckApi
 
     init {
         val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+        val jwtInterceptor = JwtInterceptor()
 
         val client = OkHttpClient.Builder()
             .addInterceptor(interceptor)
+            .addInterceptor(jwtInterceptor)
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl(AppConfig.SERVER_URL + "/auth/")
+            .baseUrl(AppConfig.SERVER_URL + "/deck/")
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        authApi = retrofit.create(AuthApi::class.java)
+        deckApi = retrofit.create(DeckApi::class.java)
     }
 
-    fun login(payload: LoginRequestDto, callback: Callback<AuthResponseDto>) {
-        authApi.login(payload).enqueue((callback))
+    fun all(payload: LoginRequestDto, callback: Callback<String>) {
+        deckApi.all().enqueue((callback))
     }
 }

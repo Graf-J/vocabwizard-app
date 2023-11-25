@@ -1,5 +1,6 @@
 package com.graf.vocab_wizard_app.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -38,7 +39,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun addListeners() {
         addRegisterNavigationClickListener()
         addSubmitClickListener()
-        addUsernameChangedListener()
+        addNameChangedListener()
         addPasswordChangedListener()
     }
 
@@ -51,7 +52,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun addUsernameChangedListener() {
+    private fun addNameChangedListener() {
         binding.loginNameTextInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -77,10 +78,10 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun addSubmitClickListener() {
         binding.submitLoginButton.setOnClickListener {
-            val isUsernameValid = validateName(binding.loginNameTextInput, binding.loginNameLayout)
+            val isNameValid = validateName(binding.loginNameTextInput, binding.loginNameLayout)
             val isPasswordValid = validatePassword(binding.loginPasswordTextInput, binding.loginPasswordLayout)
-
-            if (isUsernameValid && isPasswordValid) {
+            // Log in if neither Name nor Password is empty
+            if (isNameValid && isPasswordValid) {
                 val name = binding.loginNameTextInput.text.toString()
                 val password = binding.loginPasswordTextInput.text.toString()
                 login(name, password)
@@ -91,7 +92,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun validateName(edName: EditText, edNameL: TextInputLayout): Boolean {
         return when {
             edName.text.toString().trim().isEmpty() -> {
-                edName.error = "Required"
+                edName.error = getString(R.string.required)
                 false
             }
             else -> {
@@ -104,7 +105,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun validatePassword(edName: EditText, edNameL: TextInputLayout): Boolean {
         return when {
             edName.text.toString().trim().isEmpty() -> {
-                edName.error = "Required"
+                edName.error = getString(R.string.required)
                 false
             }
             else -> {
