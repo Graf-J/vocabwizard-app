@@ -3,6 +3,7 @@ package com.graf.vocab_wizard_app.ui
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.graf.vocab_wizard_app.R
 
 class MainActivity : AppCompatActivity() {
