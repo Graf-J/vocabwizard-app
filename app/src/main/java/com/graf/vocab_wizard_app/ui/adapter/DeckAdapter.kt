@@ -1,9 +1,11 @@
 package com.graf.vocab_wizard_app.ui.adapter
 
+import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import com.graf.vocab_wizard_app.databinding.ItemDeckBinding
+import com.graf.vocab_wizard_app.ui.MainActivity
 
 class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: View?) : RecyclerView.Adapter<DeckAdapter.DeckViewHolder>() {
     inner class DeckViewHolder(val binding: ItemDeckBinding) : RecyclerView.ViewHolder(binding.root)
@@ -34,6 +37,30 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
             view?.let {
                 Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_learnFragment, bundle)
             }
+        }
+
+        holder.binding.deckCard.setOnLongClickListener {
+            Log.d("Graf", "Long Press")
+            val popupMenu = PopupMenu(holder.itemView.context, holder.binding.deckCard)
+            popupMenu.menuInflater.inflate(R.menu.deck_popup_menu, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                if (menuItem.toString() == holder.itemView.context.getString(R.string.update_deck)) {
+                    val bundle = bundleOf("id" to deck.id)
+                    view?.let {
+                        Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_updateDeckFragment, bundle)
+                    }
+                } else if (menuItem.toString() == holder.itemView.context.getString(R.string.add_card)) {
+                    // TODO: Navigate to Add Card Fragment
+                    Log.d("Graf", "Add another Card")
+                }
+
+                true
+            }
+
+            popupMenu.show()
+            // Return true to consume the long click event
+            true
         }
     }
 

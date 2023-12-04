@@ -9,4 +9,6 @@
     <string name="register_now">Register now</string>
     <string name="submit">Submit</string>
     <string name="deck_overview">Your decks:</string>
+    <string name="update_deck">Update Deck</string>
+    <string name="add_card">Add Card</string>
 </resources>

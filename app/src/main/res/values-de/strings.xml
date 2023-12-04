@@ -10,4 +10,6 @@
     <string name="register_now">Jetzt registrieren</string>
     <string name="submit">Bestätigen</string>
     <string name="deck_overview">Deine Decks:</string>
+    <string name="update_deck">Deck aktualisieren</string>
+    <string name="add_card">Karte hinzufügen</string>
 </resources>

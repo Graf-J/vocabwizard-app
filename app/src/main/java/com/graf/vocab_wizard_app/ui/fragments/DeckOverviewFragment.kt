@@ -41,6 +41,8 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
         // Prevent to Jump Back to Login
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { }
 
+        // TODO: Add Refresh Functionality
+
         this.decksViewModel.decksLiveData.observe(viewLifecycleOwner) { decksResult ->
             when(decksResult) {
                 is DecksResult.LOADING -> {
