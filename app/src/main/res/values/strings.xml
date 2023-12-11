@@ -11,4 +11,13 @@
     <string name="deck_overview">Your decks:</string>
     <string name="update_deck">Update Deck</string>
     <string name="add_card">Add Card</string>
+    <string name="easy">Easy</string>
+    <string name="good">Good</string>
+    <string name="hard">Hard</string>
+    <string name="repeat">Repeat</string>
+    <string name="next">Next Card</string>
+    <string name="definitions">Definitions:</string>
+    <string name="examples">Examples:</string>
+    <string name="synonyms">Synonyms:</string>
+    <string name="antonyms">Antonyms:</string>
 </resources>

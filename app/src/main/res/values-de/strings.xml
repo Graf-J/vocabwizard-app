@@ -12,4 +12,13 @@
     <string name="deck_overview">Deine Decks:</string>
     <string name="update_deck">Deck aktualisieren</string>
     <string name="add_card">Karte hinzufügen</string>
+    <string name="easy">Einfach</string>
+    <string name="good">Gut</string>
+    <string name="hard">Schwer</string>
+    <string name="repeat">Nochmal</string>
+    <string name="next">Nächste Karte</string>
+    <string name="definitions">Definitionen:</string>
+    <string name="examples">Beispiele:</string>
+    <string name="synonyms">Synonyme:</string>
+    <string name="antonyms">Gegenteile:</string>
 </resources>

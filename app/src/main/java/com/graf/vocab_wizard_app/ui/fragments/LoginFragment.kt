@@ -131,14 +131,24 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     binding.loginErrorText.text = it.message
                     // Enable Button
                     binding.submitLoginButton.isEnabled = true
+
+                    // Clear back stack to reset navigation history
+                    view?.let { innerIt ->
+                        val navController = Navigation.findNavController(innerIt)
+                        navController.popBackStack(R.id.loginFragment, false)
+                    }
                 }
                 is LoginResult.SUCCESS -> {
                     // Enable Button
                     binding.submitLoginButton.isEnabled = true
                     // Navigate to Deck Overview
                     view?.let {innerIt ->
-                        Navigation.findNavController(innerIt)
-                            .navigate(R.id.action_loginFragment_to_deckOverviewFragment)
+                        val navController = Navigation.findNavController(innerIt)
+                        val currentDestination = navController.currentDestination?.id
+
+                        if (currentDestination == R.id.loginFragment) {
+                            navController.navigate(R.id.action_loginFragment_to_deckOverviewFragment)
+                        }
                     }
                 }
             }
