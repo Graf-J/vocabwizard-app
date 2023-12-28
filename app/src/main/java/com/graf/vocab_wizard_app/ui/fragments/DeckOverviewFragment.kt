@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.databinding.FragmentDeckOverviewBinding
+import com.graf.vocab_wizard_app.ui.MainActivity
 import com.graf.vocab_wizard_app.ui.adapter.DeckAdapter
 
 
@@ -32,6 +34,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
     ): View? {
         _binding = FragmentDeckOverviewBinding.inflate(layoutInflater, container, false)
 
+        // TODO: Remove this function
         binding.navigateToLoginButton.setOnClickListener {
             view?.let {
                 Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
@@ -41,39 +44,58 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
         // Prevent to Jump Back to Login
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { }
 
-        // TODO: Add Refresh Functionality
+        addRefreshListener()
 
+        observeDecks()
+        getDecks()
+
+        return binding.root
+    }
+
+    private fun addRefreshListener() {
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            getDecks()
+        }
+    }
+
+    private fun observeDecks() {
         this.decksViewModel.decksLiveData.observe(viewLifecycleOwner) { decksResult ->
             when(decksResult) {
                 is DecksResult.LOADING -> {
-                    binding.decksSpinner.visibility = View.VISIBLE
+                    binding.swipeRefreshLayout.isRefreshing = true
                 }
                 is DecksResult.ERROR -> {
-                    Log.d("Graf", decksResult.httpCode.toString())
-                    // TODO: Show Error Message to User if something goes wrong
+                    Toast.makeText(MainActivity.activityContext(), decksResult.message, Toast.LENGTH_SHORT).show()
                     if (decksResult.httpCode == 403) {
                         view?.let {
                             Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
                         }
                     }
 
-                    binding.decksSpinner.visibility = View.INVISIBLE
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
                 is DecksResult.SUCCESS -> {
-                    Log.d("Graf", decksResult.decks.toString())
                     binding.decksRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     deckAdapter = DeckAdapter(decksResult.decks, view)
                     binding.decksRecyclerView.adapter = deckAdapter
 
-                    binding.decksSpinner.visibility = View.INVISIBLE
+                    binding.swipeRefreshLayout.isRefreshing = false
                 }
 
                 else -> {}
             }
         }
+    }
 
+    private fun getDecks() {
         decksViewModel.getAllDecks()
+    }
 
-        return binding.root
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        decksViewModel.decksLiveData.removeObservers(viewLifecycleOwner)
+
+        _binding = null
     }
 }
