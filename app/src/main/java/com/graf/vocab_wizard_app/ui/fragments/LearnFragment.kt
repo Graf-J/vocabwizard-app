@@ -59,37 +59,37 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     }
 
     private fun addNextButtonListener() {
-        binding.nextButton.setOnClickListener {
+        binding.cardFront.setOnClickListener {
             toggleButtons()
-            flipAnimator!!.reverse()
+            flipAnimator!!.start()
         }
     }
 
     private fun addEasyButtonListener() {
         binding.easyButton.setOnClickListener {
             toggleButtons()
-            flipAnimator!!.start()
+            flipAnimator!!.reverse()
         }
     }
 
     private fun addGoodButtonListener() {
         binding.goodButton.setOnClickListener {
             toggleButtons()
-            flipAnimator!!.start()
+            flipAnimator!!.reverse()
         }
     }
 
     private fun addHardButtonListener() {
         binding.hardButton.setOnClickListener {
             toggleButtons()
-            flipAnimator!!.start()
+            flipAnimator!!.reverse()
         }
     }
 
     private fun addRepeatButtonListener() {
         binding.repeatButton.setOnClickListener {
             toggleButtons()
-            flipAnimator!!.start()
+            flipAnimator!!.reverse()
         }
     }
 
@@ -130,18 +130,12 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     }
 
     private fun toggleButtons() {
-        if (isFront) {
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.nextButton.visibility = View.VISIBLE
-            }, 1000)
-
+        if (!isFront) {
             binding.easyButton.visibility = View.INVISIBLE
             binding.goodButton.visibility = View.INVISIBLE
             binding.hardButton.visibility = View.INVISIBLE
             binding.repeatButton.visibility = View.INVISIBLE
         } else {
-            binding.nextButton.visibility = View.INVISIBLE
-
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.easyButton.visibility = View.VISIBLE
                 binding.goodButton.visibility = View.VISIBLE

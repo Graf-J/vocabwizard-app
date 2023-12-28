@@ -173,6 +173,7 @@
         android:layout_margin="5dp"
         android:text="@string/easy"
         android:backgroundTint="@color/success"
+        android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/guidelineCenter"
         app:layout_constraintTop_toBottomOf="@id/guidelineUpper"
@@ -186,6 +187,7 @@
         android:layout_margin="5dp"
         android:text="@string/good"
         android:backgroundTint="@color/secondary"
+        android:visibility="invisible"
         app:layout_constraintLeft_toRightOf="@id/guidelineCenter"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineUpper"
@@ -200,6 +202,7 @@
         android:layout_margin="5dp"
         android:text="@string/hard"
         android:backgroundTint="@color/warning"
+        android:visibility="invisible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/guidelineCenter"
         app:layout_constraintTop_toBottomOf="@id/guidelineLower"
@@ -213,22 +216,11 @@
         android:layout_margin="5dp"
         android:text="@string/repeat"
         android:backgroundTint="@color/error"
+        android:visibility="invisible"
         app:layout_constraintLeft_toRightOf="@id/guidelineCenter"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineLower"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:text="@string/next"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guidelineMiddle"
-        />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineUpper"
