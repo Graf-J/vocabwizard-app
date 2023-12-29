@@ -1,14 +1,27 @@
 package com.graf.vocab_wizard_app.api.deck
 
-import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
-import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
+import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
+import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
+import okhttp3.ResponseBody
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.PATCH
+import retrofit2.http.Path
 
 interface DeckApi {
     @GET("/decks")
-    fun all(): Call<List<DeckResponseDto>>
+    fun getAllDecks(): Call<List<DeckResponseDto>>
+
+    @GET("{DeckId}/cards/learn")
+    fun getLearnCards(@Path("DeckId") deckId: String): Call<List<CardResponseDto>>
+
+    @PATCH("{DeckId}/cards/{CardId}/confidence")
+    fun updateCardConfidence(
+        @Body payload: ConfidenceRequestDto,
+        @Path("DeckId") deckId: String,
+        @Path("CardId") cardId: String
+    ): Call<ResponseBody>
 }

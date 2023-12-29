@@ -31,7 +31,6 @@ class DecksViewModel : ViewModel() {
                         _decksLiveData.postValue(DecksResult.ERROR(response.code(), "Null object"))
                     }
                 } else {
-                    // Parse JSON if Login Fails
                     val gson = Gson()
                     val type = object : TypeToken<ErrorResponseDto>(){}.type
                     val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
@@ -45,6 +44,6 @@ class DecksViewModel : ViewModel() {
         }
 
         // Call API
-        deckRepository.all(cb)
+        deckRepository.getAllDecks(cb)
     }
 }

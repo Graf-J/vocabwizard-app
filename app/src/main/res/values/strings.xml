@@ -20,4 +20,6 @@
     <string name="examples">Examples:</string>
     <string name="synonyms">Synonyms:</string>
     <string name="antonyms">Antonyms:</string>
+    <string name="audio">Play Audio</string>
+    <string name="noCards">No cards to learn</string>
 </resources>

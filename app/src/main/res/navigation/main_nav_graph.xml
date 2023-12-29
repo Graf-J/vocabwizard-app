@@ -58,7 +58,11 @@
     <fragment
         android:id="@+id/learnFragment"
         android:name="com.graf.vocab_wizard_app.ui.fragments.LearnFragment"
-        android:label="LearnFragment" />
+        android:label="LearnFragment" >
+        <action
+            android:id="@+id/action_learnFragment_to_deckOverviewFragment"
+            app:destination="@id/deckOverviewFragment"/>
+    </fragment>
     <fragment
         android:id="@+id/createDeckFragment"
         android:name="com.graf.vocab_wizard_app.ui.fragments.CreateDeckFragment"

@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
+        android:visibility="invisible"
+        android:translationZ="10dp"
         app:cardCornerRadius="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guidelineUpper"
@@ -24,11 +26,11 @@
             android:gravity="center">
 
             <TextView
+                android:id="@+id/word"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="strong"
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -41,6 +43,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
+        android:visibility="invisible"
+        android:translationZ="1dp"
         app:cardCornerRadius="30dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guidelineUpper"
@@ -61,11 +65,11 @@
 
 
                 <TextView
+                    android:id="@+id/translation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textSize="25sp"
-                    android:text="stark"
                     android:layout_gravity="center"
                     />
 
@@ -74,16 +78,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="Play Audio"
+                    android:text="@string/audio"
                     android:layout_gravity="center"
                     />
 
                 <TextView
+                    android:id="@+id/phonetic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textSize="20sp"
-                    android:text="/stɹɒŋ/"
                     android:layout_gravity="center"
                     android:layout_marginBottom="10dp"
                     />
@@ -109,9 +113,9 @@
                         />
 
                     <TextView
+                        android:id="@+id/definitions"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="- Capable of producing great physical force.\n- Capable of withstanding great physical force.\n- (of water, wind, etc.) Having a lot of power.\n- Determined; unyielding.\n- Highly stimulating to the senses.\n- Having an offensive or intense odor or flavor.\n- Having a high concentration of an essential or active ingredient.\n- (specifically) Having a high alcoholic content.\n- (grammar) Inflecting in a different manner than the one called weak, such as Germanic verbs which change vowels.\n- That completely ionizes into anions and cations in a solution.\n- Not easily subdued or taken.\n- Having wealth or resources.\n- Impressive, good.\n- Having a specified number of people or units.\n- (of a disease or symptom) Severe; very bad or intense.\n- Having a wide range of logical consequences; widely applicable. (Often contrasted with a weak statement which it implies.)\n- (of an argument) Convincing.- In a strong manner."
                         />
 
                     <TextView
@@ -123,9 +127,9 @@
                         />
 
                     <TextView
+                        android:id="@+id/examples"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="- a big strong man; Jake was tall and strong\n- a strong foundation; good strong shoes\n- The man was nearly drowned after a strong undercurrent swept him out to sea.\n- He is strong in the face of adversity.\n- a strong light; a strong taste\n- a strong smell\n- a strong cup of coffee; a strong medicine\n- a strong drink\n- a strong verb\n- a strong acid;  a strong base\n- a strong position\n- a strong economy\n- You're working with troubled youth in your off time? That’s strong!\n- The enemy's army force was five thousand strong."
                         />
 
                     <TextView
@@ -137,9 +141,9 @@
                         />
 
                     <TextView
+                        android:id="@+id/synonyms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="- derf\n- forceful\n- powerful\n- durable\n- sturdy\n- tough\n- ardent\n- determined\n- swith\n- unyielding\n- zealous\n- irregular\n- hard\n- concentrated\n- potent\n- rank\n- extreme\n- intense\n- impregnable\n- inviolable\n- secure\n- unassailable\n- unattackable\n- forcefully\n- powerfully\n- strongly\n- vigorously"
                         />
 
                     <TextView
@@ -151,11 +155,10 @@
                         />
 
                     <TextView
+                        android:id="@+id/antonyms"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="- forceless\n- weak\n- fragile\n- weak\n- regular\n- weak\n- diluted\n- impotent\n- weak\n- weak\n- forcelessly\n- powerlessly\n- weakly"
                         />
-
 
                 </LinearLayout>
 
@@ -249,5 +252,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleX="2"
+        android:scaleY="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

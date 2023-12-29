@@ -2,10 +2,13 @@ package com.graf.vocab_wizard_app.api.deck
 
 import com.graf.vocab_wizard_app.api.interceptor.JwtInterceptor
 import com.graf.vocab_wizard_app.config.AppConfig
+import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
+import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.Callback
@@ -32,7 +35,15 @@ class DeckRepository {
         deckApi = retrofit.create(DeckApi::class.java)
     }
 
-    fun all(callback: Callback<List<DeckResponseDto>>) {
-        deckApi.all().enqueue((callback))
+    fun getAllDecks(callback: Callback<List<DeckResponseDto>>) {
+        deckApi.getAllDecks().enqueue(callback)
+    }
+
+    fun getLearnCards(deckId: String, callback: Callback<List<CardResponseDto>>) {
+        deckApi.getLearnCards(deckId).enqueue(callback)
+    }
+
+    fun updateCardConfidence(payload: ConfidenceRequestDto, deckId: String, cardId: String, callback: Callback<ResponseBody>) {
+        deckApi.updateCardConfidence(payload, deckId, cardId).enqueue(callback)
     }
 }

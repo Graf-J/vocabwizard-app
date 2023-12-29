@@ -21,4 +21,6 @@
     <string name="examples">Beispiele:</string>
     <string name="synonyms">Synonyme:</string>
     <string name="antonyms">Gegenteile:</string>
+    <string name="audio">Audio abspielen</string>
+    <string name="noCards">Keine zu lernende Karten</string>
 </resources>

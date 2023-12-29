@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -33,9 +34,14 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
         holder.binding.oldCardsCount.text = deck.oldCardCount.toString()
 
         holder.binding.deckCard.setOnClickListener {
-            val bundle = bundleOf("id" to deck.id)
-            view?.let {
-                Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_learnFragment, bundle)
+            // Check if there are Cards to learn
+            if ((deck.newCardCount + deck.oldCardCount) >= 1) {
+                val bundle = bundleOf("id" to deck.id)
+                view?.let {
+                    Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_learnFragment, bundle)
+                }
+            } else {
+                Toast.makeText(view!!.context, view!!.context.getString(R.string.noCards), Toast.LENGTH_SHORT).show()
             }
         }
 
