@@ -74,7 +74,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
                     binding.swipeRefreshLayout.isRefreshing = true
                 }
                 is DecksResult.ERROR -> {
-                    if (decksResult.httpCode == 403) {
+                    if (decksResult.httpCode == 403 || decksResult.httpCode == 401) {
                         view?.let {
                             Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
                         }
@@ -88,6 +88,10 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
                     binding.decksRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
                     deckAdapter = DeckAdapter(decksResult.decks, view)
                     binding.decksRecyclerView.adapter = deckAdapter
+
+                    if (decksResult.decks.isEmpty()) {
+                        binding.noDecksAvailableTextView.visibility = View.VISIBLE
+                    }
 
                     binding.swipeRefreshLayout.isRefreshing = false
                 }

@@ -6,12 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.graf.vocab_wizard_app.api.deck.DeckRepository
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
 import com.graf.vocab_wizard_app.viewmodel.learn.ConfidenceResult
+import com.graf.vocab_wizard_app.viewmodel.register.RegisterResult
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,9 +52,13 @@ class CardsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel
                     }
                 } else {
                     val gson = Gson()
-                    val type = object : TypeToken<ErrorResponseDto>(){}.type
-                    val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
-                    _cardsLiveData.postValue((CardsResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error")))
+                    try {
+                        val type = object : TypeToken<ErrorResponseDto>(){}.type
+                        val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
+                        _cardsLiveData.postValue(CardsResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
+                    } catch (e: JsonParseException) {
+                        _cardsLiveData.postValue(CardsResult.ERROR(response.code(), "Unknown Error"))
+                    }
                 }
             }
 
@@ -76,9 +82,13 @@ class CardsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel
                         _confidenceLiveData.postValue(ConfidenceResult.SUCCESS)
                 } else {
                     val gson = Gson()
-                    val type = object : TypeToken<ErrorResponseDto>(){}.type
-                    val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
-                    _confidenceLiveData.postValue((ConfidenceResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error")))
+                    try {
+                        val type = object : TypeToken<ErrorResponseDto>(){}.type
+                        val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
+                        _confidenceLiveData.postValue(ConfidenceResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
+                    } catch (e: JsonParseException) {
+                        _confidenceLiveData.postValue(ConfidenceResult.ERROR(response.code(), "Unknown Error"))
+                    }
                 }
             }
 

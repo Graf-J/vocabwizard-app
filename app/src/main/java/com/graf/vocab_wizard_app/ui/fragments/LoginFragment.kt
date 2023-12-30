@@ -28,7 +28,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLoginBinding.inflate(layoutInflater, container, false)
 
         addListeners()
@@ -38,9 +38,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun addListeners() {
         addRegisterNavigationClickListener()
-        addSubmitClickListener()
         addNameChangedListener()
         addPasswordChangedListener()
+        addSubmitClickListener()
     }
 
     private fun addRegisterNavigationClickListener() {
@@ -59,7 +59,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                validateName(binding.loginNameTextInput, binding.loginNameLayout)
+                validateName()
             }
         })
     }
@@ -71,15 +71,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
-                validatePassword(binding.loginPasswordTextInput, binding.loginPasswordLayout)
+                validatePassword()
             }
         })
     }
 
     private fun addSubmitClickListener() {
         binding.submitLoginButton.setOnClickListener {
-            val isNameValid = validateName(binding.loginNameTextInput, binding.loginNameLayout)
-            val isPasswordValid = validatePassword(binding.loginPasswordTextInput, binding.loginPasswordLayout)
+            val isNameValid = validateName()
+            val isPasswordValid = validatePassword()
             // Log in if neither Name nor Password is empty
             if (isNameValid && isPasswordValid) {
                 val name = binding.loginNameTextInput.text.toString()
@@ -89,27 +89,33 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun validateName(edName: EditText, edNameL: TextInputLayout): Boolean {
+    private fun validateName(): Boolean {
+        val input = binding.loginNameTextInput
+        val layout = binding.loginNameLayout
+
         return when {
-            edName.text.toString().trim().isEmpty() -> {
-                edName.error = getString(R.string.required)
+            input.text.toString().trim().isEmpty() -> {
+                layout.error = getString(R.string.required)
                 false
             }
             else -> {
-                edName.error = null
+                layout.error = null
                 true
             }
         }
     }
 
-    private fun validatePassword(edName: EditText, edNameL: TextInputLayout): Boolean {
+    private fun validatePassword(): Boolean {
+        val input = binding.loginPasswordTextInput
+        val layout = binding.loginPasswordLayout
+
         return when {
-            edName.text.toString().trim().isEmpty() -> {
-                edName.error = getString(R.string.required)
+            input.text.toString().trim().isEmpty() -> {
+                layout.error = getString(R.string.required)
                 false
             }
             else -> {
-                edName.error = null
+                layout.error = null
                 true
             }
         }
@@ -122,13 +128,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     // Disable Button
                     binding.submitLoginButton.isEnabled = false
                     // Reset Error Message
-                    binding.loginErrorText.visibility = View.VISIBLE
+                    binding.loginErrorText.visibility = View.INVISIBLE
                     binding.loginErrorText.text = ""
                 }
                 is LoginResult.ERROR -> {
                     // Show Error Message
                     binding.loginErrorText.visibility = View.VISIBLE
-                    binding.loginErrorText.text = it.message
+                    binding.loginErrorText.text = translateErrorMessage(it.message)
+
                     // Enable Button
                     binding.submitLoginButton.isEnabled = true
 
@@ -156,5 +163,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
 
         loginViewModel.login(LoginRequestDto(name, password))
+    }
+
+    private fun translateErrorMessage(message: String): String {
+        return if (message == "Username or Password is not valid") {
+            getString(R.string.login_failed)
+        } else if (message == "API not reachable") {
+            getString(R.string.api_not_reachable)
+        } else {
+            message
+        }
     }
 }

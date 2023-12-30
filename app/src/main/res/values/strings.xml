@@ -3,10 +3,15 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="required">Required</string>
+    <string name="min_length_4">Min. 4 letters</string>
+    <string name="min_length_6">Min. 6 letters</string>
     <string name="enter_name">Enter Name</string>
     <string name="enter_password">Enter Password</string>
+    <string name="confirm_password">Confirm Password</string>
     <string name="no_account">No account?</string>
+    <string name="already_registered">Already registered?</string>
     <string name="register_now">Register now</string>
+    <string name="login_now">Login now</string>
     <string name="submit">Submit</string>
     <string name="deck_overview">Your decks:</string>
     <string name="update_deck">Update Deck</string>
@@ -23,4 +28,9 @@
     <string name="audio">Play Audio</string>
     <string name="noCards">No cards to learn</string>
     <string name="noInternetConnection">No connection to Network</string>
+    <string name="logout">Logout</string>
+    <string name="login_failed">Name or Password not correct</string>
+    <string name="api_not_reachable">Server not reachable</string>
+    <string name="password_strength">At least one number and one special character</string>
+    <string name="no_password_match">Do not match</string>
 </resources>

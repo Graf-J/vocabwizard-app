@@ -5,12 +5,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
+import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.graf.vocab_wizard_app.api.auth.AuthRepository
 import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
 import com.graf.vocab_wizard_app.ui.MainActivity
+import com.graf.vocab_wizard_app.viewmodel.register.RegisterResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,9 +47,13 @@ class LoginViewModel : ViewModel() {
                 } else {
                     // Parse JSON if Login Fails
                     val gson = Gson()
-                    val type = object : TypeToken<ErrorResponseDto>(){}.type
-                    val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
-                    _loginLiveData.postValue((LoginResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error")))
+                    try {
+                        val type = object : TypeToken<ErrorResponseDto>(){}.type
+                        val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
+                        _loginLiveData.postValue((LoginResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error")))
+                    } catch (e: JsonParseException) {
+                        _loginLiveData.postValue(LoginResult.ERROR(response.code(), "Unknown Error"))
+                    }
                 }
             }
 
