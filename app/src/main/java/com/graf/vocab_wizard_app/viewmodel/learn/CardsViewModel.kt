@@ -1,6 +1,9 @@
+import android.animation.ValueAnimator
+import android.media.MediaPlayer
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -14,7 +17,15 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class CardsViewModel : ViewModel() {
+class CardsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
+
+    // Put Variables here to prevent Data loss during orientation change
+    var isFront: Boolean = true
+    var currentRotationAngle: Float = 0f
+    var cards: MutableList<CardResponseDto> = mutableListOf()
+    var audioLink: String? = null
+    val mediaPlayer = MediaPlayer()
+
     private val _cardsLiveData: MutableLiveData<CardsResult> = MutableLiveData(CardsResult.LOADING)
     val cardsLiveData: LiveData<CardsResult> = _cardsLiveData
 

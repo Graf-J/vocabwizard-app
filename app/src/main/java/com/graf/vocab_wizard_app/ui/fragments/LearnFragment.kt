@@ -2,34 +2,23 @@ package com.graf.vocab_wizard_app.ui.fragments
 
 import CardsResult
 import CardsViewModel
-import android.animation.Animator
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
-import android.graphics.Color
-import android.media.AudioManager
+import android.content.Context
 import android.media.AudioManager.STREAM_MUSIC
-import android.media.MediaPlayer
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AnimationUtils
-import android.widget.Button
 import android.widget.Toast
-import androidx.core.graphics.ColorUtils
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
-import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
-import com.graf.vocab_wizard_app.databinding.FragmentDeckOverviewBinding
 import com.graf.vocab_wizard_app.databinding.FragmentLearnBinding
 import com.graf.vocab_wizard_app.ui.MainActivity
 import com.graf.vocab_wizard_app.viewmodel.learn.ConfidenceResult
@@ -40,14 +29,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
 
     private val cardsViewModel: CardsViewModel by viewModels()
 
-    private lateinit var cardFront: View
-    private lateinit var cardBack: View
     private var flipAnimator: ValueAnimator? = null
-    private var isFront = true
-    private val mediaPlayer = MediaPlayer()
-
-    private var cards = mutableListOf<CardResponseDto>()
-    private var audioLink: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,10 +38,9 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     ): View? {
         _binding = FragmentLearnBinding.inflate(layoutInflater, container, false)
 
-        initializeAnimator()
+        initializeFlipAnimator()
         addListeners()
-
-        getCards(arguments?.getString("id")!!)
+        loadCards()
         observeConfidence()
 
         return binding.root
@@ -76,8 +57,9 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
 
     private fun addCardClickListener() {
         binding.cardFront.setOnClickListener {
-            toggleButtons()
+            toggleButtons(true)
             flipAnimator!!.start()
+            cardsViewModel.currentRotationAngle = if (cardsViewModel.isFront) 0f else 180f
         }
     }
 
@@ -103,7 +85,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         binding.repeatButton.setOnClickListener {
             moveFirstCardToEnd()
             updateCardUI()
-            toggleButtons()
+            toggleButtons(false)
             flipAnimator!!.reverse()
         }
     }
@@ -111,41 +93,54 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     private fun handleNonRepeat(label: String) {
         updateConfidence(label)
         removeFirstCard()
-        if (cards.size != 0) {
+        if (cardsViewModel.cards.size != 0) {
             updateCardUI()
-            toggleButtons()
+            toggleButtons(false)
             flipAnimator!!.reverse()
         }
     }
 
     private fun addAudioButtonListener() {
         binding.audioButton.setOnClickListener {
-            try {
+            if (isNetworkAvailable()) {
+                try {
+                    if (cardsViewModel.mediaPlayer.isPlaying) {
+                        cardsViewModel.mediaPlayer.stop()
+                        cardsViewModel.mediaPlayer.reset()
+                    }
 
-                if (mediaPlayer.isPlaying) {
-                    mediaPlayer.stop()
-                    mediaPlayer.reset()
+                    // Set audio stream type and data source
+                    cardsViewModel.mediaPlayer.setAudioStreamType(STREAM_MUSIC)
+                    cardsViewModel.mediaPlayer.setDataSource(cardsViewModel.audioLink)
+
+                    // Set up completion listener
+                    cardsViewModel.mediaPlayer.setOnCompletionListener {
+                        cardsViewModel.mediaPlayer.reset()
+                    }
+
+                    val playbackParams = cardsViewModel.mediaPlayer.playbackParams
+                    playbackParams.speed = 0.75f // 1.0f is normal speed, adjust as needed
+                    cardsViewModel.mediaPlayer.playbackParams = playbackParams
+
+                    // Prepare and start the media player
+                    cardsViewModel.mediaPlayer.prepare()
+                    cardsViewModel.mediaPlayer.start()
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-
-                // Set audio stream type and data source
-                mediaPlayer.setAudioStreamType(STREAM_MUSIC)
-                mediaPlayer.setDataSource(audioLink)
-
-                // Set up completion listener
-                mediaPlayer.setOnCompletionListener {
-                    mediaPlayer.reset()
-                }
-
-                val playbackParams = mediaPlayer.playbackParams
-                playbackParams.speed = 0.75f // 1.0f is normal speed, adjust as needed
-                mediaPlayer.playbackParams = playbackParams
-
-                // Prepare and start the media player
-                mediaPlayer.prepare()
-                mediaPlayer.start()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            } else {
+                Toast.makeText(requireContext(), "No internet connection.", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun loadCards() {
+        if (cardsViewModel.cards.isEmpty()) {
+            getCards(arguments?.getString("id")!!)
+        } else {
+            updateCardUI()
+            flipAnimator!!.currentPlayTime = cardsViewModel.currentRotationAngle.toLong()
+            binding.progressBar.visibility = View.INVISIBLE
         }
     }
 
@@ -177,7 +172,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
 
     private fun updateConfidence(confidence: String) {
         val deckId = arguments?.getString("id")!!
-        val cardId = cards[0].id
+        val cardId = cardsViewModel.cards[0].id
         val payload = ConfidenceRequestDto(confidence)
 
         cardsViewModel.updateCardConfidence(payload, deckId, cardId)
@@ -204,7 +199,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                     binding.cardFront.visibility = View.VISIBLE
                 }
                 is CardsResult.SUCCESS -> {
-                    this.cards = cardsResult.cards.toMutableList()
+                    cardsViewModel.cards = cardsResult.cards.toMutableList()
                     updateCardUI()
 
                     binding.progressBar.visibility = View.INVISIBLE
@@ -226,82 +221,84 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         // Update Card in the middle of the animation (after 500ms)
         Handler(Looper.getMainLooper()).postDelayed({
             // Front Card
-            binding.word.text = cards[0].word
+            binding.word.text = cardsViewModel.cards[0].word
 
             // Back Card
-            binding.translation.text = cards[0].translation
+            binding.translation.text = cardsViewModel.cards[0].translation
 
-            if (cards[0].audioLink != null) {
+            if (cardsViewModel.cards[0].audioLink != null) {
                 binding.audioButton.isEnabled = true
-                audioLink = cards[0].audioLink
+                cardsViewModel.audioLink = cardsViewModel.cards[0].audioLink
             } else {
                 binding.audioButton.isEnabled = false
             }
 
-            binding.phonetic.text = cards[0].phonetic
+            binding.phonetic.text = cardsViewModel.cards[0].phonetic
             binding.definitions.text = buildString {
-                for (definition in cards[0].definitions) {
+                for (definition in cardsViewModel.cards[0].definitions) {
                     append("- $definition\n")
                 }
             }
             binding.examples.text = buildString {
-                for (example in cards[0].examples) {
+                for (example in cardsViewModel.cards[0].examples) {
                     append("- $example\n")
                 }
             }
             binding.synonyms.text = buildString {
-                for (synonym in cards[0].synonyms) {
+                for (synonym in cardsViewModel.cards[0].synonyms) {
                     append("- $synonym\n")
                 }
             }
             binding.antonyms.text = buildString {
-                for (antonym in cards[0].antonyms) {
+                for (antonym in cardsViewModel.cards[0].antonyms) {
                     append("- $antonym\n")
                 }
             }
         }, 500)
     }
 
-    private fun initializeAnimator() {
-        cardFront = binding.cardFront
-        cardBack = binding.cardBack
-
-        // Set initial visibility
-        cardFront.visibility = View.VISIBLE
-        cardBack.visibility = View.GONE
-
+    private fun initializeFlipAnimator() {
         flipAnimator = createFlipAnimator()
+        if (cardsViewModel.isFront) {
+            binding.cardFront.visibility = View.VISIBLE
+            binding.cardBack.visibility = View.GONE
+        } else {
+            toggleButtons(true)
+            binding.cardFront.visibility = View.GONE
+            binding.cardBack.visibility = View.VISIBLE
+            flipAnimator!!.start()
+        }
     }
 
     private fun createFlipAnimator(): ValueAnimator {
-        val animator = ValueAnimator.ofFloat(0f, 180f)
+        val animator = ValueAnimator.ofFloat(cardsViewModel.currentRotationAngle, cardsViewModel.currentRotationAngle + 180f)
         animator.duration = 1000
         animator.interpolator = AccelerateDecelerateInterpolator()
 
         val distance = 8000.0f
-        cardFront.cameraDistance = distance
-        cardBack.cameraDistance = distance
+        binding.cardFront.cameraDistance = distance
+        binding.cardBack.cameraDistance = distance
 
         animator.addUpdateListener { animation ->
             val value = animation.animatedValue as Float
-            cardFront.rotationY = if (isFront) value else 180 - value
-            cardBack.rotationY = if (isFront) 180 - value else value
+            binding.cardFront.rotationY = if (cardsViewModel.isFront) value else 180 - value
+            binding.cardBack.rotationY = if (cardsViewModel.isFront) 180 - value else value
 
             // Adjust scaling of the Text
             val scale = if (value >= 90f) -1f else 1f
-            cardBack.scaleX = scale
+            binding.cardBack.scaleX = scale
 
             if (value >= 90f) {
-                if (isFront) {
-                    isFront = false
-                    cardFront.visibility = View.GONE
-                    cardBack.visibility = View.VISIBLE
+                if (cardsViewModel.isFront) {
+                    cardsViewModel.isFront = false
+                    binding.cardFront.visibility = View.GONE
+                    binding.cardBack.visibility = View.VISIBLE
                 }
             } else {
-                if (!isFront) {
-                    isFront = true
-                    cardBack.visibility = View.GONE
-                    cardFront.visibility = View.VISIBLE
+                if (!cardsViewModel.isFront) {
+                    cardsViewModel.isFront = true
+                    binding.cardBack.visibility = View.GONE
+                    binding.cardFront.visibility = View.VISIBLE
                 }
             }
         }
@@ -310,33 +307,33 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     }
 
     private fun removeFirstCard() {
-        cards = cards.drop(1).toMutableList()
+        cardsViewModel.cards = cardsViewModel.cards.drop(1).toMutableList()
 
-        if (cards.size != 0) {
+        if (cardsViewModel.cards.size != 0) {
             updateCardUI()
         }
     }
 
     private fun moveFirstCardToEnd() {
-        val fistCard = cards.removeAt(0)
-        cards.add(fistCard)
+        val fistCard = cardsViewModel.cards.removeAt(0)
+        cardsViewModel.cards.add(fistCard)
 
         updateCardUI()
     }
 
-    private fun toggleButtons() {
-        if (!isFront) {
-            binding.easyButton.visibility = View.INVISIBLE
-            binding.goodButton.visibility = View.INVISIBLE
-            binding.hardButton.visibility = View.INVISIBLE
-            binding.repeatButton.visibility = View.INVISIBLE
-        } else {
+    private fun toggleButtons(setVisible: Boolean) {
+        if (setVisible) {
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.easyButton.visibility = View.VISIBLE
                 binding.goodButton.visibility = View.VISIBLE
                 binding.hardButton.visibility = View.VISIBLE
                 binding.repeatButton.visibility = View.VISIBLE
             }, 1000)
+        } else {
+            binding.easyButton.visibility = View.INVISIBLE
+            binding.goodButton.visibility = View.INVISIBLE
+            binding.hardButton.visibility = View.INVISIBLE
+            binding.repeatButton.visibility = View.INVISIBLE
         }
     }
 
@@ -348,12 +345,18 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     }
 
     private fun tryNavigateBack(): Boolean {
-        if (cards.size == 0) {
+        if (cardsViewModel.cards.size == 0) {
             view?.let {
                 Navigation.findNavController(it).navigate(R.id.action_learnFragment_to_deckOverviewFragment)
             }
             return true
         }
         return false
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        val networkInfo = connectivityManager?.activeNetworkInfo
+        return networkInfo?.isConnected == true
     }
 }
