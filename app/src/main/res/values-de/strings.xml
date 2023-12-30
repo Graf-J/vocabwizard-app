@@ -23,4 +23,5 @@
     <string name="antonyms">Gegenteile:</string>
     <string name="audio">Audio abspielen</string>
     <string name="noCards">Keine zu lernende Karten</string>
+    <string name="noInternetConnection">Keine Internetverbindung</string>
 </resources>

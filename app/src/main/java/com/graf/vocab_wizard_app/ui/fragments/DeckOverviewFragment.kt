@@ -2,6 +2,7 @@ package com.graf.vocab_wizard_app.ui.fragments
 
 import DecksResult
 import DecksViewModel
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,18 +36,10 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
     ): View? {
         _binding = FragmentDeckOverviewBinding.inflate(layoutInflater, container, false)
 
-        // TODO: Remove this function
-        binding.navigateToLoginButton.setOnClickListener {
-            view?.let {
-                Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
-            }
-        }
-
         // Prevent to Jump Back to Login
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { }
-
+        addLogoutListener()
         addRefreshListener()
-
         observeDecks()
         getDecks()
 
@@ -56,6 +49,21 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
     private fun addRefreshListener() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             getDecks()
+        }
+    }
+
+    private fun addLogoutListener() {
+        binding.navigateToLoginButton.setOnClickListener {
+            // Remove AccessToken
+            val sharedPref = MainActivity.activityContext().getSharedPreferences("Auth", Context.MODE_PRIVATE)
+            with(sharedPref.edit()) {
+                remove("AccessToken")
+                apply()
+            }
+            // Navigate Back
+            view?.let {
+                Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
+            }
         }
     }
 

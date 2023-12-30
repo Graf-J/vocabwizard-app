@@ -1,6 +1,8 @@
 package com.graf.vocab_wizard_app.ui.adapter
 
+import android.content.Context
 import android.content.res.Resources
+import android.net.ConnectivityManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -36,17 +38,20 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
         holder.binding.deckCard.setOnClickListener {
             // Check if there are Cards to learn
             if ((deck.newCardCount + deck.oldCardCount) >= 1) {
-                val bundle = bundleOf("id" to deck.id)
-                view?.let {
-                    Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_learnFragment, bundle)
+                if (isNetworkAvailable()) {
+                    val bundle = bundleOf("id" to deck.id)
+                    view?.let {
+                        Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_learnFragment, bundle)
+                    }
+                } else {
+                    Toast.makeText(view!!.context, view.context.getString(R.string.noInternetConnection), Toast.LENGTH_SHORT).show()
                 }
             } else {
-                Toast.makeText(view!!.context, view!!.context.getString(R.string.noCards), Toast.LENGTH_SHORT).show()
+                Toast.makeText(view!!.context, view.context.getString(R.string.noCards), Toast.LENGTH_SHORT).show()
             }
         }
 
         holder.binding.deckCard.setOnLongClickListener {
-            Log.d("Graf", "Long Press")
             val popupMenu = PopupMenu(holder.itemView.context, holder.binding.deckCard)
             popupMenu.menuInflater.inflate(R.menu.deck_popup_menu, popupMenu.menu)
 
@@ -74,7 +79,9 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
         return decks.size
     }
 
-    fun update(decks: List<DeckResponseDto>) {
-        this.decks = decks
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager = view!!.context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        val networkInfo = connectivityManager?.activeNetworkInfo
+        return networkInfo?.isConnected == true
     }
 }

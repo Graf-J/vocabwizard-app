@@ -131,7 +131,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                     e.printStackTrace()
                 }
             } else {
-                Toast.makeText(requireContext(), "No internet connection.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), requireView().context.getString(R.string.noInternetConnection), Toast.LENGTH_SHORT).show()
             }
         }
     }

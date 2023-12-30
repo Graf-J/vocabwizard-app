@@ -22,4 +22,5 @@
     <string name="antonyms">Antonyms:</string>
     <string name="audio">Play Audio</string>
     <string name="noCards">No cards to learn</string>
+    <string name="noInternetConnection">No connection to Network</string>
 </resources>
