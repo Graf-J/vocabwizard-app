@@ -31,7 +31,7 @@
     <string name="noInternetConnection">Keine Internetverbindung</string>
     <string name="logout">Ausloggen</string>
     <string name="login_failed">Name oder Passwort ist falsch</string>
-    <string name="api_not_reachable">Server nicht erreichbar</string>
+    <string name="api_not_reachable">Keine Verbindung zum Internet</string>
     <string name="password_strength">Mindestens eine Zahl und ein Spezialzeichen</string>
     <string name="no_password_match">Keine Übereinstimmung</string>
 </resources>

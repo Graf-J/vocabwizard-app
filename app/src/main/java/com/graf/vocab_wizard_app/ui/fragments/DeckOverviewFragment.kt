@@ -78,6 +78,10 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
                         view?.let {
                             Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
                         }
+                    } else if (decksResult.message == "API not reachable") {
+                        view?.let {
+                            Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
+                        }
                     } else {
                         Toast.makeText(MainActivity.activityContext(), decksResult.message, Toast.LENGTH_SHORT).show()
                     }
