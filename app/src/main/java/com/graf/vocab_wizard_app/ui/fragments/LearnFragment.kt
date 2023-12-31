@@ -121,7 +121,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                     }
 
                     val playbackParams = cardsViewModel.mediaPlayer.playbackParams
-                    playbackParams.speed = 0.75f // 1.0f is normal speed, adjust as needed
+                    playbackParams.speed = 0.75f
                     cardsViewModel.mediaPlayer.playbackParams = playbackParams
 
                     // Prepare and start the media player
@@ -137,6 +137,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     }
 
     private fun loadCards() {
+        // Check if cards are already loaded (helpful when changing orientation)
         if (cardsViewModel.cards.isEmpty()) {
             getCards(arguments?.getString("id")!!)
         } else {
@@ -317,6 +318,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     }
 
     private fun moveFirstCardToEnd() {
+        // Gets executed for Repeat-Operation
         val fistCard = cardsViewModel.cards.removeAt(0)
         cardsViewModel.cards.add(fistCard)
 
@@ -325,6 +327,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
 
     private fun toggleButtons(setVisible: Boolean) {
         if (setVisible) {
+            // Wait 1s for Flip-Animation to finish before showing Buttons
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.easyButton.visibility = View.VISIBLE
                 binding.goodButton.visibility = View.VISIBLE
@@ -347,6 +350,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     }
 
     private fun tryNavigateBack(): Boolean {
+        // If there are no more cards the user gets navigated back to the Deck-Overview
         if (cardsViewModel.cards.size == 0) {
             view?.let {
                 Navigation.findNavController(it).navigate(R.id.action_learnFragment_to_deckOverviewFragment)

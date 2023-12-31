@@ -30,7 +30,7 @@
     <string name="noInternetConnection">No connection to Network</string>
     <string name="logout">Logout</string>
     <string name="login_failed">Name or Password not correct</string>
-    <string name="api_not_reachable">No connection to internet</string>
+    <string name="api_not_reachable">Connection to Server failed</string>
     <string name="password_strength">At least one number and one special character</string>
     <string name="no_password_match">Do not match</string>
 </resources>
