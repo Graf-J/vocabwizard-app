@@ -16,6 +16,7 @@
     <string name="deck_overview">Your decks:</string>
     <string name="update_deck">Update Deck</string>
     <string name="add_card">Add Card</string>
+    <string name="delete_deck">Delete Deck</string>
     <string name="easy">Easy</string>
     <string name="good">Good</string>
     <string name="hard">Hard</string>
@@ -33,4 +34,8 @@
     <string name="api_not_reachable">Connection to Server failed</string>
     <string name="password_strength">At least one number and one special character</string>
     <string name="no_password_match">Do not match</string>
+    <string name="create_deck">Create Deck</string>
+    <string name="from_language">Source Language</string>
+    <string name="to_language">Target Language</string>
+    <string name="learning_rate">Learning Rate:</string>
 </resources>

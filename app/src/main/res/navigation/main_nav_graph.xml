@@ -66,5 +66,9 @@
     <fragment
         android:id="@+id/createDeckFragment"
         android:name="com.graf.vocab_wizard_app.ui.fragments.CreateDeckFragment"
-        android:label="CreateDeckFragment" />
+        android:label="CreateDeckFragment" >
+        <action
+            android:id="@+id/action_createDeckFragment_to_deckOverviewFragment"
+            app:destination="@id/deckOverviewFragment" />
+    </fragment>
 </navigation>

@@ -64,6 +64,8 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
                 } else if (menuItem.toString() == holder.itemView.context.getString(R.string.add_card)) {
                     // TODO: Navigate to Add Card Fragment
                     Log.d("Graf", "Add another Card")
+                } else if (menuItem.toString() == holder.itemView.context.getString(R.string.delete_deck)) {
+                    Log.d("Graf", "Delete Deck ${deck.id}")
                 }
 
                 true

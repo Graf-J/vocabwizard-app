@@ -58,7 +58,6 @@ class RegisterViewModel : ViewModel() {
                     } catch (e: JsonParseException) {
                         try {
                             val type = object : TypeToken<ErrorResponseDto>(){}.type
-                            Log.d("Schmutz", responseJsonString.toString())
                             val errorResponse: ErrorResponseDto = gson.fromJson(responseJsonString, type)
                             _registerLiveData.postValue(RegisterResult.ERROR(response.code(), errorResponse.message))
                         } catch (e: JsonParseException) {

@@ -37,7 +37,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentLearnBinding.inflate(layoutInflater, container, false)
 
         initializeFlipAnimator()

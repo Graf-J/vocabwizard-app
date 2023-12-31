@@ -38,17 +38,30 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
 
         // Prevent to Jump Back to Login
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { }
-        addLogoutListener()
-        addRefreshListener()
+        addListeners()
         observeDecks()
         getDecks()
 
         return binding.root
     }
 
+    private fun addListeners() {
+        addLogoutListener()
+        addAddDeckListener()
+        addRefreshListener()
+    }
+
     private fun addRefreshListener() {
         binding.swipeRefreshLayout.setOnRefreshListener {
             getDecks()
+        }
+    }
+
+    private fun addAddDeckListener() {
+        binding.addDeckButton.setOnClickListener {
+            view?.let {
+                Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_createDeckFragment)
+            }
         }
     }
 
