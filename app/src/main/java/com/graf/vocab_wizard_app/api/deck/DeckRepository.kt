@@ -62,4 +62,8 @@ class DeckRepository {
     fun createCard(payload: CreateCardRequestDto, deckId: String, callback: Callback<CreateCardResponseDto>) {
         deckApi.createCard(payload, deckId).enqueue(callback)
     }
+
+    fun deleteCard(deckId: String, cardId: String, callback: Callback<ResponseBody>) {
+        deckApi.deleteCard(deckId, cardId).enqueue(callback)
+    }
 }

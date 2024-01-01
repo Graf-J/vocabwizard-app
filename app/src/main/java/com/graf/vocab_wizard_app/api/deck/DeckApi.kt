@@ -42,4 +42,10 @@ interface DeckApi {
         @Path("DeckId") deckId: String,
         @Path("CardId") cardId: String
     ): Call<ResponseBody>
+
+    @DELETE("{DeckId}/cards/{CardId}")
+    fun deleteCard(
+        @Path("DeckId") deckId: String,
+        @Path("CardId") cardId: String
+    ): Call<ResponseBody>
 }

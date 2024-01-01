@@ -12,7 +12,9 @@ import com.graf.vocab_wizard_app.api.deck.DeckRepository
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
+import com.graf.vocab_wizard_app.viewmodel.deckoverview.DeleteDeckResult
 import com.graf.vocab_wizard_app.viewmodel.learn.ConfidenceResult
+import com.graf.vocab_wizard_app.viewmodel.learn.DeleteCardResult
 import com.graf.vocab_wizard_app.viewmodel.register.RegisterResult
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -33,6 +35,9 @@ class CardsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel
 
     private val _confidenceLiveData: MutableLiveData<ConfidenceResult> = MutableLiveData(ConfidenceResult.INITIAL)
     val confidenceLiveData: LiveData<ConfidenceResult> = _confidenceLiveData
+
+    private val _deleteCardLiveData: MutableLiveData<DeleteCardResult> = MutableLiveData(DeleteCardResult.LOADING)
+    val deleteCardLiveData: LiveData<DeleteCardResult> = _deleteCardLiveData
 
     private val deckRepository: DeckRepository = DeckRepository()
 
@@ -99,5 +104,35 @@ class CardsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel
 
         // Call API
         deckRepository.updateCardConfidence(payload, deckId, cardId, cb)
+    }
+
+    fun deleteCard(deckId: String, cardId: String) {
+        _deleteCardLiveData.postValue(DeleteCardResult.LOADING)
+        val cb: Callback<ResponseBody> = object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    _deleteCardLiveData.postValue(DeleteCardResult.SUCCESS)
+                } else {
+                    val gson = Gson()
+                    try {
+                        val type = object : TypeToken<ErrorResponseDto>(){}.type
+                        val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
+                        _deleteCardLiveData.postValue(DeleteCardResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
+                    } catch (e: JsonParseException) {
+                        _deleteCardLiveData.postValue(DeleteCardResult.ERROR(response.code(), "Unknown Error"))
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                _deleteCardLiveData.postValue(DeleteCardResult.ERROR(-1, "API not reachable"))
+            }
+        }
+
+        // Call API
+        deckRepository.deleteCard(deckId, cardId, cb)
     }
 }

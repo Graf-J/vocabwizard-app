@@ -45,4 +45,6 @@
     <string name="add_new_card">Neue Karte</string>
     <string name="enter_word">Wort eingeben</string>
     <string name="word_added">Wort wurde hinzugefügt</string>
+    <string name="delete_card">Karte löschen</string>
+    <string name="sure_about_delete_card">Bist du dir sicher dass du diese Karte löschen möchtest?</string>
 </resources>

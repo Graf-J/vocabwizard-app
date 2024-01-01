@@ -3,6 +3,7 @@ package com.graf.vocab_wizard_app.ui.fragments
 import CardsResult
 import CardsViewModel
 import android.animation.ValueAnimator
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Configuration
 import android.media.AudioManager.STREAM_MUSIC
@@ -24,6 +25,7 @@ import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.databinding.FragmentLearnBinding
 import com.graf.vocab_wizard_app.ui.MainActivity
 import com.graf.vocab_wizard_app.viewmodel.learn.ConfidenceResult
+import com.graf.vocab_wizard_app.viewmodel.learn.DeleteCardResult
 
 class LearnFragment : Fragment(R.layout.fragment_learn) {
     private var _binding: FragmentLearnBinding? = null
@@ -43,7 +45,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         initializeFlipAnimator()
         addListeners()
         loadCards()
-        observeConfidence()
+        startObservers()
 
         return binding.root
     }
@@ -55,6 +57,12 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         addHardButtonListener()
         addRepeatButtonListener()
         addAudioButtonListener()
+        addDeleteCardListener()
+    }
+
+    private fun startObservers() {
+        observeConfidence()
+        observeDeleteCard()
     }
 
     private fun addCardClickListener() {
@@ -136,6 +144,12 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         }
     }
 
+    private fun addDeleteCardListener() {
+        binding.deleteCardButton.setOnClickListener {
+            openDeletePopup()
+        }
+    }
+
     private fun loadCards() {
         // Check if cards are already loaded (helpful when changing orientation)
         if (cardsViewModel.cards.isEmpty()) {
@@ -179,6 +193,23 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         val payload = ConfidenceRequestDto(confidence)
 
         cardsViewModel.updateCardConfidence(payload, deckId, cardId)
+    }
+
+    private fun observeDeleteCard() {
+        this.cardsViewModel.deleteCardLiveData.observe(viewLifecycleOwner) { deleteDeckResult ->
+            when (deleteDeckResult) {
+                is DeleteCardResult.ERROR -> {
+                    if (deleteDeckResult.httpCode == 403) {
+                        view?.let {
+                            Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
+                        }
+                    } else {
+                        Toast.makeText(MainActivity.activityContext(), translateErrorMessage(deleteDeckResult.message), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else -> {}
+            }
+        }
     }
 
     private fun getCards(deckId: String) {
@@ -358,6 +389,32 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
             return true
         }
         return false
+    }
+
+    private fun openDeletePopup() {
+        // Show Delete Dialog
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.delete_card))
+            .setMessage(getString(R.string.sure_about_delete_card))
+            .setPositiveButton(getString(R.string.delete)) { _, _ ->
+                cardsViewModel.deleteCard(arguments?.getString("id")!!, cardsViewModel.cards[0].id)
+                cardsViewModel.cards = cardsViewModel.cards.drop(1).toMutableList()
+                updateCardUI()
+                toggleButtons(false)
+                flipAnimator!!.reverse()
+            }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
+            .create()
+
+        dialog.show()
+    }
+
+    private fun translateErrorMessage(message: String): String {
+        return if (message == "API not reachable") {
+            getString(R.string.api_not_reachable)
+        } else {
+            message
+        }
     }
 
     private fun isNetworkAvailable(): Boolean {
