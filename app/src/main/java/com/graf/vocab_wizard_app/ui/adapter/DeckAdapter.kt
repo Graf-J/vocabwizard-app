@@ -36,15 +36,16 @@ class DeckAdapter(
     }
 
     override fun onBindViewHolder(holder: DeckViewHolder, position: Int) {
-        displayValues(holder, position)
-        addClickListener(holder, decks[position])
-        addLongPressListener(holder, decks[position])
+        val deck = decks[position]
+
+        displayValues(holder, deck)
+        addClickListener(holder, deck)
+        addLongPressListener(holder, deck)
     }
 
-    private fun displayValues(holder: DeckViewHolder, position: Int) {
-        val deck: DeckResponseDto = decks[position]
+    private fun displayValues(holder: DeckViewHolder, deck: DeckResponseDto) {
         holder.binding.deckName.text = deck.name
-        holder.binding.newCardsCount.text = deck.newCardCount.toString()
+        holder.binding.newCardsCount.text = deck.newCardCount.coerceAtMost(deck.learningRate).toString()
         holder.binding.oldCardsCount.text = deck.oldCardCount.toString()
     }
 
