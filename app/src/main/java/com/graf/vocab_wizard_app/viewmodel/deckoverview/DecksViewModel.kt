@@ -7,7 +7,9 @@ import com.google.gson.reflect.TypeToken
 import com.graf.vocab_wizard_app.api.deck.DeckRepository
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
+import com.graf.vocab_wizard_app.viewmodel.deckoverview.DeleteDeckResult
 import com.graf.vocab_wizard_app.viewmodel.register.RegisterResult
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -15,6 +17,9 @@ import retrofit2.Response
 class DecksViewModel : ViewModel() {
     private val _decksLiveData: MutableLiveData<DecksResult> = MutableLiveData(DecksResult.LOADING)
     val decksLiveData: LiveData<DecksResult> = _decksLiveData
+
+    private val _deleteDeckLiveData: MutableLiveData<DeleteDeckResult> = MutableLiveData(DeleteDeckResult.LOADING)
+    val deleteDeckLiveData: LiveData<DeleteDeckResult> = _deleteDeckLiveData
 
     private val deckRepository: DeckRepository = DeckRepository()
 
@@ -51,5 +56,35 @@ class DecksViewModel : ViewModel() {
 
         // Call API
         deckRepository.getAllDecks(cb)
+    }
+
+    fun deleteDeck(deckId: String) {
+        _deleteDeckLiveData.postValue(DeleteDeckResult.LOADING)
+        val cb: Callback<ResponseBody> = object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                        _deleteDeckLiveData.postValue(DeleteDeckResult.SUCCESS)
+                } else {
+                    val gson = Gson()
+                    try {
+                        val type = object : TypeToken<ErrorResponseDto>(){}.type
+                        val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
+                        _decksLiveData.postValue(DecksResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
+                    } catch (e: JsonParseException) {
+                        _decksLiveData.postValue(DecksResult.ERROR(response.code(), "Unknown Error"))
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                _decksLiveData.postValue(DecksResult.ERROR(-1, "API not reachable"))
+            }
+        }
+
+        // Call API
+        deckRepository.deleteDeck(deckId, cb)
     }
 }

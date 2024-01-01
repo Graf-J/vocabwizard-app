@@ -41,6 +41,10 @@ class DeckRepository {
         deckApi.getAllDecks().enqueue(callback)
     }
 
+    fun deleteDeck(deckId: String, callback: Callback<ResponseBody>) {
+        deckApi.deleteDeck(deckId).enqueue(callback)
+    }
+
     fun getLearnCards(deckId: String, callback: Callback<List<CardResponseDto>>) {
         deckApi.getLearnCards(deckId).enqueue(callback)
     }

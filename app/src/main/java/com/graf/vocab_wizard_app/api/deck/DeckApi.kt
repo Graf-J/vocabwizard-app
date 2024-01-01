@@ -9,6 +9,7 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -20,6 +21,9 @@ interface DeckApi {
 
     @POST("/decks")
     fun createDeck(@Body payload: CreateDeckRequestDto): Call<CreateDeckResponseDto>
+
+    @DELETE("{DeckId}")
+    fun deleteDeck(@Path("DeckId") deckId: String): Call<ResponseBody>
 
     @GET("{DeckId}/cards/learn")
     fun getLearnCards(@Path("DeckId") deckId: String): Call<List<CardResponseDto>>

@@ -1,5 +1,7 @@
 package com.graf.vocab_wizard_app.ui.adapter
 
+import DecksViewModel
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
@@ -18,7 +20,11 @@ import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import com.graf.vocab_wizard_app.databinding.ItemDeckBinding
 import com.graf.vocab_wizard_app.ui.MainActivity
 
-class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: View?) : RecyclerView.Adapter<DeckAdapter.DeckViewHolder>() {
+class DeckAdapter(
+    private var decks: List<DeckResponseDto>,
+    private val decksViewModel: DecksViewModel,
+    private val view: View?
+) : RecyclerView.Adapter<DeckAdapter.DeckViewHolder>() {
     inner class DeckViewHolder(val binding: ItemDeckBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckViewHolder {
@@ -29,12 +35,19 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
     }
 
     override fun onBindViewHolder(holder: DeckViewHolder, position: Int) {
-        // Set the values for the item_todo.xml elements inside the RecyclerView
+        displayValues(holder, position)
+        addClickListener(holder, decks[position])
+        addLongPressListener(holder, decks[position])
+    }
+
+    private fun displayValues(holder: DeckViewHolder, position: Int) {
         val deck: DeckResponseDto = decks[position]
         holder.binding.deckName.text = deck.name
         holder.binding.newCardsCount.text = deck.newCardCount.toString()
         holder.binding.oldCardsCount.text = deck.oldCardCount.toString()
+    }
 
+    private fun addClickListener(holder: DeckViewHolder, deck: DeckResponseDto) {
         holder.binding.deckCard.setOnClickListener {
             // Check if there are Cards to learn
             if ((deck.newCardCount + deck.oldCardCount) >= 1) {
@@ -50,7 +63,9 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
                 Toast.makeText(view!!.context, view.context.getString(R.string.noCards), Toast.LENGTH_SHORT).show()
             }
         }
+    }
 
+    private fun addLongPressListener(holder: DeckViewHolder, deck: DeckResponseDto) {
         holder.binding.deckCard.setOnLongClickListener {
             val popupMenu = PopupMenu(holder.itemView.context, holder.binding.deckCard)
             popupMenu.menuInflater.inflate(R.menu.deck_popup_menu, popupMenu.menu)
@@ -65,7 +80,7 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
                     // TODO: Navigate to Add Card Fragment
                     Log.d("Graf", "Add another Card")
                 } else if (menuItem.toString() == holder.itemView.context.getString(R.string.delete_deck)) {
-                    Log.d("Graf", "Delete Deck ${deck.id}")
+                    openDeleteDeckModal(holder, deck.id, deck.name)
                 }
 
                 true
@@ -75,6 +90,23 @@ class DeckAdapter(private var decks: List<DeckResponseDto>, private val view: Vi
             // Return true to consume the long click event
             true
         }
+    }
+
+    private fun openDeleteDeckModal(holder: DeckViewHolder, deckId: String, deckName: String) {
+        // Show Delete Dialog
+        val dialog = AlertDialog.Builder(holder.itemView.context)
+            .setTitle(holder.itemView.context.getString(R.string.delete_deck))
+            .setMessage(holder.itemView.context.getString(R.string.sure_about_delete) + deckName)
+            .setPositiveButton(holder.itemView.context.getString(R.string.delete)) { _, _ ->
+                decksViewModel.deleteDeck(deckId)
+                // Remove deck from RecyclerView
+                decks = decks.filter { it.id != deckId }
+                notifyDataSetChanged()
+            }
+            .setNegativeButton(holder.itemView.context.getString(R.string.cancel)) { _, _ -> }
+            .create()
+
+        dialog.show()
     }
 
     override fun getItemCount(): Int {

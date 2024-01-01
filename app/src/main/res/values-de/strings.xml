@@ -39,4 +39,7 @@
     <string name="from_language">Ausgangssprache</string>
     <string name="to_language">Zielsprache</string>
     <string name="learning_rate">Lernrate:</string>
+    <string name="sure_about_delete">Bist du dir sicher dass du das Deck löschen möchtest:</string>
+    <string name="delete">Löschen</string>
+    <string name="cancel">Abbrechen</string>
 </resources>

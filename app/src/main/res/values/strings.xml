@@ -38,4 +38,7 @@
     <string name="from_language">Source Language</string>
     <string name="to_language">Target Language</string>
     <string name="learning_rate">Learning Rate:</string>
+    <string name="sure_about_delete">Are you sure you want to delete this deck:</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
 </resources>

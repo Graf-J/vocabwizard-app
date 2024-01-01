@@ -20,6 +20,7 @@ import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.databinding.FragmentDeckOverviewBinding
 import com.graf.vocab_wizard_app.ui.MainActivity
 import com.graf.vocab_wizard_app.ui.adapter.DeckAdapter
+import com.graf.vocab_wizard_app.viewmodel.deckoverview.DeleteDeckResult
 
 
 class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
@@ -40,6 +41,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { }
         addListeners()
         observeDecks()
+        observeDeleteDeck()
         getDecks()
 
         return binding.root
@@ -103,7 +105,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
                 }
                 is DecksResult.SUCCESS -> {
                     binding.decksRecyclerView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-                    deckAdapter = DeckAdapter(decksResult.decks, view)
+                    deckAdapter = DeckAdapter(decksResult.decks, decksViewModel, view)
                     binding.decksRecyclerView.adapter = deckAdapter
 
                     if (decksResult.decks.isEmpty()) {
@@ -113,6 +115,19 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
                     binding.swipeRefreshLayout.isRefreshing = false
                 }
 
+                else -> {}
+            }
+        }
+    }
+
+    private fun observeDeleteDeck() {
+        this.decksViewModel.deleteDeckLiveData.observe(viewLifecycleOwner) { deleteDeckResult ->
+            when(deleteDeckResult) {
+                is DeleteDeckResult.ERROR -> {
+                    Toast.makeText(MainActivity.activityContext(), deleteDeckResult.message, Toast.LENGTH_SHORT).show()
+                    // If Delete-Operation fails, fetch all the decks again to be up to date
+                    getDecks()
+                }
                 else -> {}
             }
         }
