@@ -42,4 +42,7 @@
     <string name="sure_about_delete">Bist du dir sicher dass du das Deck löschen möchtest:</string>
     <string name="delete">Löschen</string>
     <string name="cancel">Abbrechen</string>
+    <string name="add_new_card">Neue Karte</string>
+    <string name="enter_word">Wort eingeben</string>
+    <string name="word_added">Wort wurde hinzugefügt</string>
 </resources>

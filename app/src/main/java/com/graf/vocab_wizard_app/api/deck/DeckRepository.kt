@@ -3,10 +3,12 @@ package com.graf.vocab_wizard_app.api.deck
 import com.graf.vocab_wizard_app.api.interceptor.JwtInterceptor
 import com.graf.vocab_wizard_app.config.AppConfig
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
+import com.graf.vocab_wizard_app.data.dto.request.CreateCardRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
+import com.graf.vocab_wizard_app.data.dto.response.CreateCardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import okhttp3.OkHttpClient
@@ -55,5 +57,9 @@ class DeckRepository {
 
     fun createDeck(payload: CreateDeckRequestDto, callback: Callback<CreateDeckResponseDto>) {
         deckApi.createDeck(payload).enqueue(callback)
+    }
+
+    fun createCard(payload: CreateCardRequestDto, deckId: String, callback: Callback<CreateCardResponseDto>) {
+        deckApi.createCard(payload, deckId).enqueue(callback)
     }
 }

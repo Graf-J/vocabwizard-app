@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_deckOverviewFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_deckOverviewFragment_to_addCardFragment"
+            app:destination="@id/addCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/updateDeckFragment"
@@ -71,4 +74,8 @@
             android:id="@+id/action_createDeckFragment_to_deckOverviewFragment"
             app:destination="@id/deckOverviewFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addCardFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.AddCardFragment"
+        android:label="AddCardFragment" />
 </navigation>

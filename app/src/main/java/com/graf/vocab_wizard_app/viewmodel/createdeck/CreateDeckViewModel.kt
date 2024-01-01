@@ -1,6 +1,5 @@
 package com.graf.vocab_wizard_app.viewmodel.createdeck
 
-import CreateDeckResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,7 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CreateDeckViewModel : ViewModel() {
-    private val _createDeckLiveData: MutableLiveData<CreateDeckResult> = MutableLiveData(CreateDeckResult.LOADING)
+    private val _createDeckLiveData: MutableLiveData<CreateDeckResult> = MutableLiveData(
+        CreateDeckResult.LOADING)
     val createDeckLiveData: LiveData<CreateDeckResult> = _createDeckLiveData
 
     lateinit var fromListAdapter: DropdownAdapter

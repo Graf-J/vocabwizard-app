@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
 import android.net.ConnectivityManager
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -67,29 +68,39 @@ class DeckAdapter(
 
     private fun addLongPressListener(holder: DeckViewHolder, deck: DeckResponseDto) {
         holder.binding.deckCard.setOnLongClickListener {
-            val popupMenu = PopupMenu(holder.itemView.context, holder.binding.deckCard)
-            popupMenu.menuInflater.inflate(R.menu.deck_popup_menu, popupMenu.menu)
-
-            popupMenu.setOnMenuItemClickListener { menuItem ->
-                if (menuItem.toString() == holder.itemView.context.getString(R.string.update_deck)) {
-                    val bundle = bundleOf("id" to deck.id)
-                    view?.let {
-                        Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_updateDeckFragment, bundle)
-                    }
-                } else if (menuItem.toString() == holder.itemView.context.getString(R.string.add_card)) {
-                    // TODO: Navigate to Add Card Fragment
-                    Log.d("Graf", "Add another Card")
-                } else if (menuItem.toString() == holder.itemView.context.getString(R.string.delete_deck)) {
-                    openDeleteDeckModal(holder, deck.id, deck.name)
-                }
-
-                true
-            }
-
+            val popupMenu = createPopupMenu(holder, deck)
             popupMenu.show()
-            // Return true to consume the long click event
+
             true
         }
+    }
+
+    private fun createPopupMenu(holder: DeckViewHolder, deck: DeckResponseDto): PopupMenu {
+        val popupMenu = PopupMenu(holder.itemView.context, holder.binding.deckCard)
+        popupMenu.menuInflater.inflate(R.menu.deck_popup_menu, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { menuItem ->
+            if (menuItem.itemId == R.id.updateDeck) {
+                val bundle = bundleOf("id" to deck.id)
+                view?.let {
+                    Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_updateDeckFragment, bundle)
+                }
+            } else if (menuItem.itemId == R.id.addCard) {
+                val bundle = Bundle().apply {
+                    putString("id", deck.id)
+                    putString("fromLang", deck.fromLang)
+                }
+                view?.let {
+                    Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_addCardFragment, bundle)
+                }
+            } else if (menuItem.itemId == R.id.deleteDeck) {
+                openDeleteDeckModal(holder, deck.id, deck.name)
+            }
+
+            true
+        }
+
+        return popupMenu
     }
 
     private fun openDeleteDeckModal(holder: DeckViewHolder, deckId: String, deckName: String) {

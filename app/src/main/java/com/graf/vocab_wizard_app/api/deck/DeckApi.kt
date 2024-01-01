@@ -1,8 +1,10 @@
 package com.graf.vocab_wizard_app.api.deck
 
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
+import com.graf.vocab_wizard_app.data.dto.request.CreateCardRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
+import com.graf.vocab_wizard_app.data.dto.response.CreateCardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import okhttp3.ResponseBody
@@ -27,6 +29,12 @@ interface DeckApi {
 
     @GET("{DeckId}/cards/learn")
     fun getLearnCards(@Path("DeckId") deckId: String): Call<List<CardResponseDto>>
+
+    @POST("{DeckId}/cards")
+    fun createCard(
+        @Body payload: CreateCardRequestDto,
+        @Path("DeckId") deckId: String
+    ): Call<CreateCardResponseDto>
 
     @PATCH("{DeckId}/cards/{CardId}/confidence")
     fun updateCardConfidence(

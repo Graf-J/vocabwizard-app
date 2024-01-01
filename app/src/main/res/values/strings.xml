@@ -41,4 +41,7 @@
     <string name="sure_about_delete">Are you sure you want to delete this deck:</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="add_new_card">New Card</string>
+    <string name="enter_word">Enter Word</string>
+    <string name="word_added">Word was added</string>
 </resources>

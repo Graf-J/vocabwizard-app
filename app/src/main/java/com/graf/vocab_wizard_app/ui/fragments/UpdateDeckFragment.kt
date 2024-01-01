@@ -11,13 +11,13 @@ import com.graf.vocab_wizard_app.databinding.FragmentUpdateDeckBinding
 
 class UpdateDeckFragment : Fragment(R.layout.fragment_update_deck) {
     private var _binding: FragmentUpdateDeckBinding? = null;
-    private val binding get() = _binding!!;
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentUpdateDeckBinding.inflate(layoutInflater, container, false)
 
         val id = arguments?.getString("id")

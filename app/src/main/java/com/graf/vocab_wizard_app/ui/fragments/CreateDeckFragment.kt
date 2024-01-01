@@ -1,16 +1,10 @@
 package com.graf.vocab_wizard_app.ui.fragments
 
-import CreateDeckResult
+import com.graf.vocab_wizard_app.viewmodel.createdeck.CreateDeckResult
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,10 +12,8 @@ import androidx.navigation.Navigation
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
 import com.graf.vocab_wizard_app.databinding.FragmentCreateDeckBinding
-import com.graf.vocab_wizard_app.databinding.FragmentLearnBinding
 import com.graf.vocab_wizard_app.ui.adapter.DropdownAdapter
 import com.graf.vocab_wizard_app.viewmodel.createdeck.CreateDeckViewModel
-import com.graf.vocab_wizard_app.viewmodel.login.LoginResult
 
 class CreateDeckFragment : Fragment(R.layout.fragment_create_deck) {
     private var _binding: FragmentCreateDeckBinding? = null
@@ -59,39 +51,21 @@ class CreateDeckFragment : Fragment(R.layout.fragment_create_deck) {
     }
 
     private fun addNameChangedListener() {
-        binding.deckNameTextInput.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                validateDeckName()
-            }
-        })
+        binding.deckNameTextInput.addTextChangedListener {
+            validateDeckName()
+        }
     }
 
     private fun addFromLanguageChangedListener() {
-        binding.fromLanguageAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                processFromLanguage()
-            }
-        })
+        binding.fromLanguageAutoCompleteTextView.addTextChangedListener {
+            processFromLanguage()
+        }
     }
 
     private fun addToLanguageChangedListener() {
-        binding.toLanguageAutoCompleteTextView.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                processToLanguage()
-            }
-        })
+        binding.toLanguageAutoCompleteTextView.addTextChangedListener {
+            processToLanguage()
+        }
     }
 
     private fun addSubmitClickListener() {

@@ -1,3 +1,5 @@
+package com.graf.vocab_wizard_app.viewmodel.createdeck
+
 import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
 
 sealed class CreateDeckResult() {
