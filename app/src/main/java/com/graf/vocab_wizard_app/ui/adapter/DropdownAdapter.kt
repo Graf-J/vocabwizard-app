@@ -11,10 +11,11 @@ import android.widget.TextView
 import com.graf.vocab_wizard_app.R
 import java.util.Locale
 
-class DropdownAdapter(context: Context,
-                      resource: Int,
-                      private var languages: List<String>
-) : ArrayAdapter<String>(context, resource, languages.toMutableList()) {
+class DropdownAdapter(
+    context: Context,
+    resource: Int,
+    originalLanguages: List<String>
+) : ArrayAdapter<String>(context, resource, originalLanguages.toMutableList()) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return createView(position, convertView, parent)
@@ -39,11 +40,5 @@ class DropdownAdapter(context: Context,
         imageView.setImageResource(imageResourceId)
 
         return view
-    }
-
-    fun updateData(newLanguages: List<String>) {
-        clear()
-        addAll(newLanguages)
-        notifyDataSetChanged()
     }
 }

@@ -42,10 +42,12 @@ class CreateDeckFragment : Fragment(R.layout.fragment_create_deck) {
     }
 
     private fun initializeDropoutMenus() {
-        createDeckViewModel.fromListAdapter = DropdownAdapter(requireContext(), R.layout.item_dropdown, listOf("EN", "DE", "ES", "FR", "IT"))
+        val languages = listOf("EN", "DE", "ES", "FR", "IT")
+
+        createDeckViewModel.fromListAdapter = DropdownAdapter(requireContext(), R.layout.item_dropdown, languages)
         binding.fromLanguageAutoCompleteTextView.setAdapter(createDeckViewModel.fromListAdapter)
 
-        createDeckViewModel.toListAdapter = DropdownAdapter(requireContext(), R.layout.item_dropdown, listOf("EN", "DE", "ES", "FR", "IT"))
+        createDeckViewModel.toListAdapter = DropdownAdapter(requireContext(), R.layout.item_dropdown, languages)
         binding.toLanguageAutoCompleteTextView.setAdapter(createDeckViewModel.toListAdapter)
     }
 
