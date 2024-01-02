@@ -85,6 +85,7 @@ class DeckAdapter(
                 // val bundle = bundleOf("id" to deck.id)
                 val bundle = Bundle().apply {
                     putString("id", deck.id)
+                    putString("name", deck.name)
                     putString("fromLang", deck.fromLang)
                     putString("toLang", deck.toLang)
                     putInt("learningRate", deck.learningRate)

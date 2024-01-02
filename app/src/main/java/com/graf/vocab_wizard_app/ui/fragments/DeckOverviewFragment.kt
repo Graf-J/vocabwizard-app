@@ -22,8 +22,8 @@ import com.graf.vocab_wizard_app.viewmodel.deckoverview.DeleteDeckResult
 
 
 class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
-    private var _binding: FragmentDeckOverviewBinding? = null;
-    private val binding get() = _binding!!;
+    private var _binding: FragmentDeckOverviewBinding? = null
+    private val binding get() = _binding!!
     private val decksViewModel: DecksViewModel by viewModels()
 
     private lateinit var deckAdapter: DeckAdapter
@@ -68,7 +68,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
     private fun addLogoutListener() {
         binding.navigateToLoginButton.setOnClickListener {
             // Remove AccessToken
-            val sharedPref = MainActivity.activityContext().getSharedPreferences("Auth", Context.MODE_PRIVATE)
+            val sharedPref = requireContext().getSharedPreferences("Auth", Context.MODE_PRIVATE)
             with(sharedPref.edit()) {
                 remove("AccessToken")
                 apply()
@@ -96,7 +96,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
                             Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
                         }
                     } else {
-                        Toast.makeText(MainActivity.activityContext(), decksResult.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), decksResult.message, Toast.LENGTH_SHORT).show()
                     }
 
                     binding.swipeRefreshLayout.isRefreshing = false
@@ -122,7 +122,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
         this.decksViewModel.deleteDeckLiveData.observe(viewLifecycleOwner) { deleteDeckResult ->
             when(deleteDeckResult) {
                 is DeleteDeckResult.ERROR -> {
-                    Toast.makeText(MainActivity.activityContext(), deleteDeckResult.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), deleteDeckResult.message, Toast.LENGTH_SHORT).show()
                     // If Delete-Operation fails, fetch all the decks again to be up to date
                     getDecks()
                 }

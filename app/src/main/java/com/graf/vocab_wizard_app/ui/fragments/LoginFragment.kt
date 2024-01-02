@@ -15,8 +15,8 @@ import com.graf.vocab_wizard_app.viewmodel.login.LoginResult
 import com.graf.vocab_wizard_app.viewmodel.login.LoginViewModel
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
-    private var _binding: FragmentLoginBinding? = null;
-    private val binding get() = _binding!!;
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
     private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(

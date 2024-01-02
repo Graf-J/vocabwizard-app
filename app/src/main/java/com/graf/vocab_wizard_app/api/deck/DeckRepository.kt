@@ -6,11 +6,13 @@ import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateCardRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
+import com.graf.vocab_wizard_app.data.dto.request.UpdateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateCardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
+import com.graf.vocab_wizard_app.data.dto.response.UpdateDeckResponseDto
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
@@ -57,6 +59,10 @@ class DeckRepository {
 
     fun createDeck(payload: CreateDeckRequestDto, callback: Callback<CreateDeckResponseDto>) {
         deckApi.createDeck(payload).enqueue(callback)
+    }
+
+    fun updateDeck(payload: UpdateDeckRequestDto, deckId: String, callback: Callback<UpdateDeckResponseDto>) {
+        deckApi.updateDeck(payload, deckId).enqueue(callback)
     }
 
     fun createCard(payload: CreateCardRequestDto, deckId: String, callback: Callback<CreateCardResponseDto>) {

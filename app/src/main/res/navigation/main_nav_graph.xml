@@ -57,7 +57,11 @@
     <fragment
         android:id="@+id/updateDeckFragment"
         android:name="com.graf.vocab_wizard_app.ui.fragments.UpdateDeckFragment"
-        android:label="UpdateDeckFragment" />
+        android:label="UpdateDeckFragment" >
+        <action
+            android:id="@+id/action_updateDeckFragment_to_deckOverviewFragment"
+            app:destination="@id/deckOverviewFragment" />
+    </fragment>
     <fragment
         android:id="@+id/learnFragment"
         android:name="com.graf.vocab_wizard_app.ui.fragments.LearnFragment"

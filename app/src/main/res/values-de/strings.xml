@@ -47,4 +47,5 @@
     <string name="word_added">Wort wurde hinzugefügt</string>
     <string name="delete_card">Karte löschen</string>
     <string name="sure_about_delete_card">Bist du dir sicher dass du diese Karte löschen möchtest?</string>
+    <string name="lang_change_forbidden">Sprache kann nach Erstellung nicht verändert werden</string>
 </resources>

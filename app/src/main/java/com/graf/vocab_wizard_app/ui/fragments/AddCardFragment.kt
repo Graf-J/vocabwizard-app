@@ -116,7 +116,7 @@ class AddCardFragment : Fragment(R.layout.fragment_add_card) {
                     // Reset Input
                     binding.wordTextInput.setText("")
                     // Toast
-                    Toast.makeText(MainActivity.activityContext(), getString(R.string.word_added), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.word_added), Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
             }

@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         instance = this
     }
     companion object {
-        private var instance: MainActivity? = null;
+        private var instance: MainActivity? = null
 
         fun activityContext() : Context {
             return instance!!.applicationContext

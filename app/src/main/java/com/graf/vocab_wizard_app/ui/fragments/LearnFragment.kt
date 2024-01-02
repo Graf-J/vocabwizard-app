@@ -174,7 +174,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                             Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
                         }
                     } else {
-                        Toast.makeText(MainActivity.activityContext(), confidenceResult.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), confidenceResult.message, Toast.LENGTH_SHORT).show()
                     }
                     enableButtons(true)
                     tryNavigateBack()
@@ -204,7 +204,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                             Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
                         }
                     } else {
-                        Toast.makeText(MainActivity.activityContext(), translateErrorMessage(deleteDeckResult.message), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), translateErrorMessage(deleteDeckResult.message), Toast.LENGTH_SHORT).show()
                     }
                 }
                 else -> {}
@@ -226,7 +226,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                             Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
                         }
                     } else {
-                        Toast.makeText(MainActivity.activityContext(), cardsResult.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), cardsResult.message, Toast.LENGTH_SHORT).show()
                     }
 
                     binding.progressBar.visibility = View.INVISIBLE

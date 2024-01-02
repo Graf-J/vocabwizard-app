@@ -20,8 +20,8 @@ import com.graf.vocab_wizard_app.viewmodel.register.RegisterResult
 import com.graf.vocab_wizard_app.viewmodel.register.RegisterViewModel
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
-    private var _binding: FragmentRegisterBinding? = null;
-    private val binding get() = _binding!!;
+    private var _binding: FragmentRegisterBinding? = null
+    private val binding get() = _binding!!
     private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
