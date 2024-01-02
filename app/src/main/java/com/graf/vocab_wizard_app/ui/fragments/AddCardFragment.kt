@@ -21,6 +21,8 @@ class AddCardFragment : Fragment(R.layout.fragment_add_card) {
     private val binding get() = _binding!!
     private val addCardViewModel: AddCardViewModel by viewModels()
 
+    private var cardAddedRecently = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,6 +31,7 @@ class AddCardFragment : Fragment(R.layout.fragment_add_card) {
         _binding = FragmentAddCardBinding.inflate(layoutInflater, container, false)
 
         displayLanguageImage()
+        observeAddWord()
         addListeners()
 
         return binding.root
@@ -48,7 +51,10 @@ class AddCardFragment : Fragment(R.layout.fragment_add_card) {
 
     private fun addWordChangedListener() {
         binding.wordTextInput.addTextChangedListener {
-            validateWord()
+            if (!cardAddedRecently) {
+                validateWord()
+            }
+            cardAddedRecently = false
         }
     }
 
@@ -79,8 +85,14 @@ class AddCardFragment : Fragment(R.layout.fragment_add_card) {
     }
 
     private fun addWord(word: String) {
+        cardAddedRecently = true
+        addCardViewModel.addCard(CreateCardRequestDto(word), requireArguments().getString("id")!!)
+    }
+
+    private fun observeAddWord() {
         addCardViewModel.addCardLiveData.observe(viewLifecycleOwner) {
             when(it) {
+                is AddCardResult.INITIAL -> {}
                 is AddCardResult.LOADING -> {
                     // Disable
                     binding.submitWordButton.isEnabled = false
@@ -109,8 +121,6 @@ class AddCardFragment : Fragment(R.layout.fragment_add_card) {
                 else -> {}
             }
         }
-
-        addCardViewModel.addCard(CreateCardRequestDto(word), requireArguments().getString("id")!!)
     }
 
     private fun translateErrorMessage(message: String): String {

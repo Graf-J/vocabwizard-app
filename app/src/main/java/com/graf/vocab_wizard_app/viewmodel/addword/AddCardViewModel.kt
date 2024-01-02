@@ -18,7 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class AddCardViewModel : ViewModel() {
-    private val _addCardLiveData: MutableLiveData<AddCardResult> = MutableLiveData(AddCardResult.LOADING)
+    private val _addCardLiveData: MutableLiveData<AddCardResult> = MutableLiveData(AddCardResult.INITIAL)
     val addCardLiveData: LiveData<AddCardResult> = _addCardLiveData
 
     private val deckRepository: DeckRepository = DeckRepository()

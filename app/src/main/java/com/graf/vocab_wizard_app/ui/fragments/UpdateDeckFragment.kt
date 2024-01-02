@@ -20,8 +20,7 @@ class UpdateDeckFragment : Fragment(R.layout.fragment_update_deck) {
     ): View {
         _binding = FragmentUpdateDeckBinding.inflate(layoutInflater, container, false)
 
-        val id = arguments?.getString("id")
-        binding.UpdateDeckTextView.text = id
+        binding.UpdateDeckTextView.text = requireArguments().getString("id")!!
 
         return binding.root
     }

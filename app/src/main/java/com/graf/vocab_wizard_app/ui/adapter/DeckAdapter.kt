@@ -82,7 +82,13 @@ class DeckAdapter(
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             if (menuItem.itemId == R.id.updateDeck) {
-                val bundle = bundleOf("id" to deck.id)
+                // val bundle = bundleOf("id" to deck.id)
+                val bundle = Bundle().apply {
+                    putString("id", deck.id)
+                    putString("fromLang", deck.fromLang)
+                    putString("toLang", deck.toLang)
+                    putInt("learningRate", deck.learningRate)
+                }
                 view?.let {
                     Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_updateDeckFragment, bundle)
                 }
@@ -108,7 +114,7 @@ class DeckAdapter(
         // Show Delete Dialog
         val dialog = AlertDialog.Builder(holder.itemView.context)
             .setTitle(holder.itemView.context.getString(R.string.delete_deck))
-            .setMessage(holder.itemView.context.getString(R.string.sure_about_delete) + deckName)
+            .setMessage(holder.itemView.context.getString(R.string.sure_about_delete) + " $deckName")
             .setPositiveButton(holder.itemView.context.getString(R.string.delete)) { _, _ ->
                 decksViewModel.deleteDeck(deckId)
                 // Remove deck from RecyclerView
