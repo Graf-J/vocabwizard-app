@@ -48,6 +48,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
     private fun addListeners() {
         addLogoutListener()
         addAddDeckListener()
+        addImportDeckListener()
         addRefreshListener()
     }
 
@@ -61,6 +62,14 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
         binding.addDeckButton.setOnClickListener {
             view?.let {
                 Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_createDeckFragment)
+            }
+        }
+    }
+
+    private fun addImportDeckListener() {
+        binding.importDeckButton.setOnClickListener {
+            view?.let {
+                Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_importDeckFragment)
             }
         }
     }

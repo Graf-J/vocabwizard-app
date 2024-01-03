@@ -3,6 +3,7 @@ package com.graf.vocab_wizard_app.api.deck
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateCardRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
+import com.graf.vocab_wizard_app.data.dto.request.ImportDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.UpdateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateCardResponseDto
@@ -26,6 +27,9 @@ interface DeckApi {
 
     @POST("/decks")
     fun createDeck(@Body payload: CreateDeckRequestDto): Call<CreateDeckResponseDto>
+
+    @POST("import")
+    fun importDeck(@Body paylaod: ImportDeckRequestDto): Call<ResponseBody>
 
     @PUT("{DeckId}")
     fun updateDeck(

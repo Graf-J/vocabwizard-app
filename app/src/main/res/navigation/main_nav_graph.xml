@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_deckOverviewFragment_to_addCardFragment"
             app:destination="@id/addCardFragment" />
+        <action
+            android:id="@+id/action_deckOverviewFragment_to_importDeckFragment"
+            app:destination="@id/importDeckFragment" />
     </fragment>
     <fragment
         android:id="@+id/updateDeckFragment"
@@ -82,4 +85,12 @@
         android:id="@+id/addCardFragment"
         android:name="com.graf.vocab_wizard_app.ui.fragments.AddCardFragment"
         android:label="AddCardFragment" />
+    <fragment
+        android:id="@+id/importDeckFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.ImportDeckFragment"
+        android:label="ImportDeckFragment" >
+        <action
+            android:id="@+id/action_importDeckFragment_to_deckOverviewFragment"
+            app:destination="@id/deckOverviewFragment" />
+    </fragment>
 </navigation>

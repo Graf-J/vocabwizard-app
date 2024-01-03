@@ -5,6 +5,7 @@ import com.graf.vocab_wizard_app.config.AppConfig
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateCardRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
+import com.graf.vocab_wizard_app.data.dto.request.ImportDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.UpdateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
@@ -59,6 +60,10 @@ class DeckRepository {
 
     fun createDeck(payload: CreateDeckRequestDto, callback: Callback<CreateDeckResponseDto>) {
         deckApi.createDeck(payload).enqueue(callback)
+    }
+
+    fun importDeck(payload: ImportDeckRequestDto, callback: Callback<ResponseBody>) {
+        deckApi.importDeck(payload).enqueue(callback)
     }
 
     fun updateDeck(payload: UpdateDeckRequestDto, deckId: String, callback: Callback<UpdateDeckResponseDto>) {

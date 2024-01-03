@@ -48,4 +48,6 @@
     <string name="delete_card">Karte löschen</string>
     <string name="sure_about_delete_card">Bist du dir sicher dass du diese Karte löschen möchtest?</string>
     <string name="lang_change_forbidden">Sprache kann nach Erstellung nicht verändert werden</string>
+    <string name="import_deck">Deck importieren</string>
+    <string name="enter_deck_id">Deck Id eingeben</string>
 </resources>
