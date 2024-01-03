@@ -164,7 +164,6 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
     private fun observeConfidence() {
         this.cardsViewModel.confidenceLiveData.observe(viewLifecycleOwner) { confidenceResult ->
             when(confidenceResult) {
-                is ConfidenceResult.INITIAL -> { }
                 is ConfidenceResult.LOADING -> {
                     enableButtons(false)
                 }

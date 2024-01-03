@@ -71,7 +71,6 @@ class ImportDeckFragment : Fragment(R.layout.fragment_import_deck) {
     private fun importDeck(deckId: String) {
         importDeckViewModel.importDeckLiveData.observe(viewLifecycleOwner) { importDeckResult ->
             when(importDeckResult) {
-                is ImportDeckResult.INITIAL -> {}
                 is ImportDeckResult.LOADING -> {
                     // Disable
                     binding.submitButton.isEnabled = false

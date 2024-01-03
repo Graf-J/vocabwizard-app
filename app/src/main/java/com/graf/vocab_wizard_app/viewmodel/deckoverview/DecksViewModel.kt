@@ -1,3 +1,6 @@
+package com.graf.vocab_wizard_app.viewmodel.deckoverview
+
+import DecksResult
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,8 +10,6 @@ import com.google.gson.reflect.TypeToken
 import com.graf.vocab_wizard_app.api.deck.DeckRepository
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
-import com.graf.vocab_wizard_app.viewmodel.deckoverview.DeleteDeckResult
-import com.graf.vocab_wizard_app.viewmodel.register.RegisterResult
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,8 +19,13 @@ class DecksViewModel : ViewModel() {
     private val _decksLiveData: MutableLiveData<DecksResult> = MutableLiveData(DecksResult.LOADING)
     val decksLiveData: LiveData<DecksResult> = _decksLiveData
 
-    private val _deleteDeckLiveData: MutableLiveData<DeleteDeckResult> = MutableLiveData(DeleteDeckResult.LOADING)
+    private val _deleteDeckLiveData: MutableLiveData<DeleteDeckResult> = MutableLiveData()
     val deleteDeckLiveData: LiveData<DeleteDeckResult> = _deleteDeckLiveData
+
+    private val _reverseDeckLiveData: MutableLiveData<ReverseDeckResult> = MutableLiveData()
+    val reverseDeckLiveData: LiveData<ReverseDeckResult> = _reverseDeckLiveData
+
+    var reverseError = false
 
     private val deckRepository: DeckRepository = DeckRepository()
 
@@ -42,9 +48,19 @@ class DecksViewModel : ViewModel() {
                     try {
                         val type = object : TypeToken<ErrorResponseDto>(){}.type
                         val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
-                        _decksLiveData.postValue(DecksResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
+                        _decksLiveData.postValue(
+                            DecksResult.ERROR(
+                                response.code(),
+                                errorResponse?.message ?: "Unknown Error"
+                            )
+                        )
                     } catch (e: JsonParseException) {
-                        _decksLiveData.postValue(DecksResult.ERROR(response.code(), "Unknown Error"))
+                        _decksLiveData.postValue(
+                            DecksResult.ERROR(
+                                response.code(),
+                                "Unknown Error"
+                            )
+                        )
                     }
                 }
             }
@@ -72,19 +88,51 @@ class DecksViewModel : ViewModel() {
                     try {
                         val type = object : TypeToken<ErrorResponseDto>(){}.type
                         val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
-                        _decksLiveData.postValue(DecksResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
+                        _deleteDeckLiveData.postValue(DeleteDeckResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
                     } catch (e: JsonParseException) {
-                        _decksLiveData.postValue(DecksResult.ERROR(response.code(), "Unknown Error"))
+                        _deleteDeckLiveData.postValue(DeleteDeckResult.ERROR(response.code(), "Unknown Error"))
                     }
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                _decksLiveData.postValue(DecksResult.ERROR(-1, "API not reachable"))
+                _deleteDeckLiveData.postValue(DeleteDeckResult.ERROR(-1, "API not reachable"))
             }
         }
 
         // Call API
         deckRepository.deleteDeck(deckId, cb)
+    }
+
+    fun reverseDeck(deckId: String) {
+        _reverseDeckLiveData.postValue(ReverseDeckResult.LOADING)
+        val cb: Callback<ResponseBody> = object : Callback<ResponseBody> {
+            override fun onResponse(
+                call: Call<ResponseBody>,
+                response: Response<ResponseBody>
+            ) {
+                if (response.isSuccessful) {
+                    _reverseDeckLiveData.postValue(ReverseDeckResult.SUCCESS)
+                } else {
+                    reverseError = true
+                    val gson = Gson()
+                    try {
+                        val type = object : TypeToken<ErrorResponseDto>(){}.type
+                        val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
+                        _reverseDeckLiveData.postValue(ReverseDeckResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
+                    } catch (e: JsonParseException) {
+                        _reverseDeckLiveData.postValue(ReverseDeckResult.ERROR(response.code(), "Unknown Error"))
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                reverseError = true
+                _reverseDeckLiveData.postValue(ReverseDeckResult.ERROR(-1, "API not reachable"))
+            }
+        }
+
+        // Call API
+        deckRepository.reverseDeck(deckId, cb)
     }
 }

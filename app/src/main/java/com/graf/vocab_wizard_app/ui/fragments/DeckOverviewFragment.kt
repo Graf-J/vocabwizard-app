@@ -1,9 +1,10 @@
 package com.graf.vocab_wizard_app.ui.fragments
 
 import DecksResult
-import DecksViewModel
+import com.graf.vocab_wizard_app.viewmodel.deckoverview.DecksViewModel
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +17,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.databinding.FragmentDeckOverviewBinding
-import com.graf.vocab_wizard_app.ui.MainActivity
 import com.graf.vocab_wizard_app.ui.adapter.DeckAdapter
 import com.graf.vocab_wizard_app.viewmodel.deckoverview.DeleteDeckResult
+import com.graf.vocab_wizard_app.viewmodel.deckoverview.ReverseDeckResult
 
 
 class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
@@ -38,8 +39,7 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
         // Prevent to Jump Back to Login
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { }
         addListeners()
-        observeDecks()
-        observeDeleteDeck()
+        addObservers()
         getDecks()
 
         return binding.root
@@ -50,6 +50,12 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
         addAddDeckListener()
         addImportDeckListener()
         addRefreshListener()
+    }
+
+    private fun addObservers() {
+        observeDecks()
+        observeDeleteDeck()
+        observeReverseDeck()
     }
 
     private fun addRefreshListener() {
@@ -129,10 +135,27 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
 
     private fun observeDeleteDeck() {
         this.decksViewModel.deleteDeckLiveData.observe(viewLifecycleOwner) { deleteDeckResult ->
-            when(deleteDeckResult) {
+            when (deleteDeckResult) {
                 is DeleteDeckResult.ERROR -> {
                     Toast.makeText(requireContext(), deleteDeckResult.message, Toast.LENGTH_SHORT).show()
                     // If Delete-Operation fails, fetch all the decks again to be up to date
+                    getDecks()
+                }
+                else -> {}
+            }
+        }
+    }
+
+    private fun observeReverseDeck() {
+        this.decksViewModel.reverseDeckLiveData.observe(viewLifecycleOwner) { reverseDeckResult ->
+            when (reverseDeckResult) {
+                is ReverseDeckResult.ERROR -> {
+                    if (decksViewModel.reverseError) {
+                        Toast.makeText(requireContext(), reverseDeckResult.message, Toast.LENGTH_SHORT).show()
+                        decksViewModel.reverseError = false
+                    }
+                }
+                is ReverseDeckResult.SUCCESS -> {
                     getDecks()
                 }
                 else -> {}

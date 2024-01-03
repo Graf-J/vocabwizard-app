@@ -13,6 +13,10 @@
         android:title="@string/update_deck" />
 
     <item
+        android:id="@+id/reverseDeck"
+        android:title="@string/reverse_deck" />
+
+    <item
         android:id="@+id/deleteDeck"
         android:title="@string/delete_deck" />
 </menu>

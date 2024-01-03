@@ -33,7 +33,7 @@ class CardsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel
     private val _cardsLiveData: MutableLiveData<CardsResult> = MutableLiveData(CardsResult.LOADING)
     val cardsLiveData: LiveData<CardsResult> = _cardsLiveData
 
-    private val _confidenceLiveData: MutableLiveData<ConfidenceResult> = MutableLiveData(ConfidenceResult.INITIAL)
+    private val _confidenceLiveData: MutableLiveData<ConfidenceResult> = MutableLiveData()
     val confidenceLiveData: LiveData<ConfidenceResult> = _confidenceLiveData
 
     private val _deleteCardLiveData: MutableLiveData<DeleteCardResult> = MutableLiveData(DeleteCardResult.LOADING)

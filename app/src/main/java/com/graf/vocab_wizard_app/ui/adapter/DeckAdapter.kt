@@ -1,6 +1,6 @@
 package com.graf.vocab_wizard_app.ui.adapter
 
-import DecksViewModel
+import com.graf.vocab_wizard_app.viewmodel.deckoverview.DecksViewModel
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -81,8 +81,19 @@ class DeckAdapter(
         popupMenu.menuInflater.inflate(R.menu.deck_popup_menu, popupMenu.menu)
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
-            if (menuItem.itemId == R.id.updateDeck) {
-                // val bundle = bundleOf("id" to deck.id)
+            if (menuItem.itemId == R.id.addCard) {
+                val bundle = Bundle().apply {
+                    putString("id", deck.id)
+                    putString("fromLang", deck.fromLang)
+                }
+                view?.let {
+                    Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_addCardFragment, bundle)
+                }
+            }  else if (menuItem.itemId == R.id.copyId) {
+                copyToClipboard(holder, deck.id)
+                Toast.makeText(view!!.context, view.context.getString(R.string.copy_to_clipboard), Toast.LENGTH_SHORT).show()
+
+            } else if (menuItem.itemId == R.id.updateDeck) {
                 val bundle = Bundle().apply {
                     putString("id", deck.id)
                     putString("name", deck.name)
@@ -93,18 +104,8 @@ class DeckAdapter(
                 view?.let {
                     Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_updateDeckFragment, bundle)
                 }
-            } else if (menuItem.itemId == R.id.copyId) {
-                copyToClipboard(holder, deck.id)
-                Toast.makeText(view!!.context, view.context.getString(R.string.copy_to_clipboard), Toast.LENGTH_SHORT).show()
-
-            } else if (menuItem.itemId == R.id.addCard) {
-                val bundle = Bundle().apply {
-                    putString("id", deck.id)
-                    putString("fromLang", deck.fromLang)
-                }
-                view?.let {
-                    Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_addCardFragment, bundle)
-                }
+            } else if (menuItem.itemId == R.id.reverseDeck) {
+                decksViewModel.reverseDeck(deck.id)
             } else if (menuItem.itemId == R.id.deleteDeck) {
                 openDeleteDeckModal(holder, deck.id, deck.name)
             }

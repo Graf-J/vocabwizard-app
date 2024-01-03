@@ -37,6 +37,9 @@ interface DeckApi {
         @Path("DeckId") deckId: String
     ): Call<UpdateDeckResponseDto>
 
+    @PATCH("{DeckId}/swap")
+    fun reverseDeck(@Path("DeckId") deckId: String): Call<ResponseBody>
+
     @DELETE("{DeckId}")
     fun deleteDeck(@Path("DeckId") deckId: String): Call<ResponseBody>
 

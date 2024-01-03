@@ -92,7 +92,6 @@ class AddCardFragment : Fragment(R.layout.fragment_add_card) {
     private fun observeAddWord() {
         addCardViewModel.addCardLiveData.observe(viewLifecycleOwner) {
             when(it) {
-                is AddCardResult.INITIAL -> {}
                 is AddCardResult.LOADING -> {
                     // Disable
                     binding.submitWordButton.isEnabled = false

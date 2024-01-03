@@ -52,4 +52,5 @@
     <string name="copy_id">Copy Id</string>
     <string name="copy_to_clipboard">Copied to Clipboard</string>
     <string name="already_own_deck">You already own this Deck</string>
+    <string name="reverse_deck">Reverse Deck</string>
 </resources>
