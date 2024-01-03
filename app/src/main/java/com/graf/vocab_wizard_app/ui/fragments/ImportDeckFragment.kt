@@ -109,7 +109,10 @@ class ImportDeckFragment : Fragment(R.layout.fragment_import_deck) {
     private fun translateErrorMessage(message: String): String {
         return if (message == "API not reachable") {
             getString(R.string.api_not_reachable)
-        } else {
+        } else if (message == "You already own this deck") {
+            getString(R.string.already_own_deck)
+        }
+        else {
             message
         }
     }

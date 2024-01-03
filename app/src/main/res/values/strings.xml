@@ -49,4 +49,7 @@
     <string name="lang_change_forbidden">Language can not be changed after creation</string>
     <string name="import_deck">Import Deck</string>
     <string name="enter_deck_id">Enter Deck Id</string>
+    <string name="copy_id">Copy Id</string>
+    <string name="copy_to_clipboard">Copied to Clipboard</string>
+    <string name="already_own_deck">You already own this Deck</string>
 </resources>

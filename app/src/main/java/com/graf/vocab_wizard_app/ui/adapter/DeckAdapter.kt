@@ -2,29 +2,29 @@ package com.graf.vocab_wizard_app.ui.adapter
 
 import DecksViewModel
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
-import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import com.graf.vocab_wizard_app.databinding.ItemDeckBinding
-import com.graf.vocab_wizard_app.ui.MainActivity
+
 
 class DeckAdapter(
     private var decks: List<DeckResponseDto>,
     private val decksViewModel: DecksViewModel,
-    private val view: View?
+    private val view: View?,
 ) : RecyclerView.Adapter<DeckAdapter.DeckViewHolder>() {
     inner class DeckViewHolder(val binding: ItemDeckBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -93,6 +93,10 @@ class DeckAdapter(
                 view?.let {
                     Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_updateDeckFragment, bundle)
                 }
+            } else if (menuItem.itemId == R.id.copyId) {
+                copyToClipboard(holder, deck.id)
+                Toast.makeText(view!!.context, view.context.getString(R.string.copy_to_clipboard), Toast.LENGTH_SHORT).show()
+
             } else if (menuItem.itemId == R.id.addCard) {
                 val bundle = Bundle().apply {
                     putString("id", deck.id)
@@ -126,6 +130,14 @@ class DeckAdapter(
             .create()
 
         dialog.show()
+    }
+
+    private fun copyToClipboard(holder: DeckViewHolder, deckId: String) {
+        val clip = ClipData.newPlainText("deckId", deckId)
+        getSystemService(
+            holder.itemView.context,
+            ClipboardManager::class.java
+        )?.setPrimaryClip(clip)
     }
 
     override fun getItemCount(): Int {

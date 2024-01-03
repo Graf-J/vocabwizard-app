@@ -5,6 +5,10 @@
         android:title="@string/add_card" />
 
     <item
+        android:id="@+id/copyId"
+        android:title="@string/copy_id" />
+
+    <item
         android:id="@+id/updateDeck"
         android:title="@string/update_deck" />
 

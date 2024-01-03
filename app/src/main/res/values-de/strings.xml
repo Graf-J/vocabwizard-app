@@ -50,4 +50,7 @@
     <string name="lang_change_forbidden">Sprache kann nach Erstellung nicht verändert werden</string>
     <string name="import_deck">Deck importieren</string>
     <string name="enter_deck_id">Deck Id eingeben</string>
+    <string name="copy_id">Id kopieren</string>
+    <string name="copy_to_clipboard">In Zwischenablage kopiert</string>
+    <string name="already_own_deck">Du besitzt das Deck bereits</string>
 </resources>
