@@ -66,4 +66,5 @@
     <string name="amazing">Hervorragend</string>
     <string name="no_decks">Keine Decks</string>
     <string name="no_cards">Keine Karten</string>
+    <string name="please_enter_word">Bitte ein Wort in der folgenden Sprache eingeben</string>
 </resources>

@@ -47,6 +47,9 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         loadCards()
         startObservers()
 
+        binding.cardFront.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+        binding.cardBack.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+
         return binding.root
     }
 
@@ -252,40 +255,35 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         }
 
         // Update Card in the middle of the animation (after 500ms)
+        val card = cardsViewModel.cards[0]
         Handler(Looper.getMainLooper()).postDelayed({
-            // Front Card
-            binding.word.text = cardsViewModel.cards[0].word
+            with (binding) {
+                // Front Card
+                binding.word.text = card.word
 
-            // Back Card
-            binding.translation.text = cardsViewModel.cards[0].translation
+                // Back Card
+                binding.translation.text = card.translation
 
-            if (cardsViewModel.cards[0].audioLink != null) {
-                binding.audioButton.isEnabled = true
-                cardsViewModel.audioLink = cardsViewModel.cards[0].audioLink
-            } else {
-                binding.audioButton.isEnabled = false
-            }
+                if (card.audioLink != null) {
+                    binding.audioButton.isEnabled = true
+                    cardsViewModel.audioLink = card.audioLink
+                } else {
+                    binding.audioButton.isEnabled = false
+                }
+                // Phonetic
+                phonetic.text = card.phonetic
 
-            binding.phonetic.text = cardsViewModel.cards[0].phonetic
-            binding.definitions.text = buildString {
-                for (definition in cardsViewModel.cards[0].definitions) {
-                    append("- $definition\n")
-                }
-            }
-            binding.examples.text = buildString {
-                for (example in cardsViewModel.cards[0].examples) {
-                    append("- $example\n")
-                }
-            }
-            binding.synonyms.text = buildString {
-                for (synonym in cardsViewModel.cards[0].synonyms) {
-                    append("- $synonym\n")
-                }
-            }
-            binding.antonyms.text = buildString {
-                for (antonym in cardsViewModel.cards[0].antonyms) {
-                    append("- $antonym\n")
-                }
+                // Definitions
+                definitions.text = card.definitions.joinToString("\n\n") { "- $it" }
+
+                // Examples
+                examples.text = card.examples.joinToString("\n\n") { "- $it" }
+
+                // Synonyms
+                synonyms.text = card.synonyms.joinToString("\n\n") { "- $it" }
+
+                // Antonyms
+                antonyms.text = card.antonyms.joinToString("\n\n") { "- $it" }
             }
         }, 500)
     }

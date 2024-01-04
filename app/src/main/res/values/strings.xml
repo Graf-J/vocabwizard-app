@@ -65,4 +65,5 @@
     <string name="amazing">Amazing</string>
     <string name="no_decks">No Decks</string>
     <string name="no_cards">No Cards</string>
+    <string name="please_enter_word">Please enter a word in the following language</string>
 </resources>

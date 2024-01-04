@@ -15,8 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guidelineUpper"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:cardElevation="1dp">
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -49,8 +48,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guidelineUpper"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:cardElevation="1dp">
+        app:layout_constraintLeft_toLeftOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -125,6 +123,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/definitionsHeadline"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
@@ -139,6 +138,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/examplesHeadline"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
@@ -153,6 +153,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/synonymsHeadline"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
@@ -167,6 +168,7 @@
                             />
 
                         <TextView
+                            android:id="@+id/antonymsHeadline"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textStyle="bold"
