@@ -141,6 +141,11 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
                     // If Delete-Operation fails, fetch all the decks again to be up to date
                     getDecks()
                 }
+                is DeleteDeckResult.SUCCESS -> {
+                    if (deckAdapter.itemCount == 0) {
+                        binding.noDecksAvailableTextView.visibility = View.VISIBLE
+                    }
+                }
                 else -> {}
             }
         }

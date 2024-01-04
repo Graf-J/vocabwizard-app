@@ -45,7 +45,7 @@ class DeckAdapter(
 
     private fun displayValues(holder: DeckViewHolder, deck: DeckResponseDto) {
         holder.binding.deckName.text = deck.name
-        holder.binding.newCardsCount.text = deck.newCardCount.coerceAtMost(deck.learningRate).toString()
+        holder.binding.newCardsCount.text = deck.newCardCount.toString()
         holder.binding.oldCardsCount.text = deck.oldCardCount.toString()
     }
 
