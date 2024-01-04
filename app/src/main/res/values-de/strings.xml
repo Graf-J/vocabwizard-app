@@ -54,4 +54,16 @@
     <string name="copy_to_clipboard">In Zwischenablage kopiert</string>
     <string name="already_own_deck">Du besitzt das Deck bereits</string>
     <string name="reverse_deck">Deck umdrehen</string>
+    <string name="statistics">Statistiken</string>
+    <string name="progress">Fortschritt</string>
+    <string name="very_bad">Sehr schlecht</string>
+    <string name="bad">Schlecht</string>
+    <string name="fair">Akzeptabel</string>
+    <string name="mediocre">Mittelmäßig</string>
+    <string name="okay">Okay</string>
+    <string name="very_good">Sehr gut</string>
+    <string name="excellent">Ausgezeichnet</string>
+    <string name="amazing">Hervorragend</string>
+    <string name="no_decks">Keine Decks</string>
+    <string name="no_cards">Keine Karten</string>
 </resources>

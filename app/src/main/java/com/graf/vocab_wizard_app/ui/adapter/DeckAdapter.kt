@@ -7,6 +7,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,7 +93,13 @@ class DeckAdapter(
             }  else if (menuItem.itemId == R.id.copyId) {
                 copyToClipboard(holder, deck.id)
                 Toast.makeText(view!!.context, view.context.getString(R.string.copy_to_clipboard), Toast.LENGTH_SHORT).show()
-
+            } else if (menuItem.itemId == R.id.statistics) {
+                val bundle = Bundle().apply {
+                    putString("id", deck.id)
+                }
+                view?.let {
+                    Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_statisticsFragment, bundle)
+                }
             } else if (menuItem.itemId == R.id.updateDeck) {
                 val bundle = Bundle().apply {
                     putString("id", deck.id)

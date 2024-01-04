@@ -56,6 +56,9 @@
         <action
             android:id="@+id/action_deckOverviewFragment_to_importDeckFragment"
             app:destination="@id/importDeckFragment" />
+        <action
+            android:id="@+id/action_deckOverviewFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/updateDeckFragment"
@@ -93,4 +96,8 @@
             android:id="@+id/action_importDeckFragment_to_deckOverviewFragment"
             app:destination="@id/deckOverviewFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="com.graf.vocab_wizard_app.ui.fragments.StatisticsFragment"
+        android:label="StatisticsFragment" />
 </navigation>

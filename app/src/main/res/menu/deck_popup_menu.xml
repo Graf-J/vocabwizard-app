@@ -9,6 +9,10 @@
         android:title="@string/copy_id" />
 
     <item
+        android:id="@+id/statistics"
+        android:title="@string/statistics" />
+
+    <item
         android:id="@+id/updateDeck"
         android:title="@string/update_deck" />
 

@@ -9,6 +9,7 @@ import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateCardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
+import com.graf.vocab_wizard_app.data.dto.response.StatsResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.UpdateDeckResponseDto
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -45,6 +46,9 @@ interface DeckApi {
 
     @GET("{DeckId}/cards/learn")
     fun getLearnCards(@Path("DeckId") deckId: String): Call<List<CardResponseDto>>
+
+    @GET("{DeckId}/stats")
+    fun getStats(@Path("DeckId") deckId: String): Call<List<StatsResponseDto>>
 
     @POST("{DeckId}/cards")
     fun createCard(

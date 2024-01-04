@@ -27,6 +27,7 @@ class CreateDeckFragment : Fragment(R.layout.fragment_create_deck) {
     ): View {
         _binding = FragmentCreateDeckBinding.inflate(layoutInflater, container, false)
 
+        binding.slider.value = 10f
         initializeDropoutMenus()
         addListeners()
 

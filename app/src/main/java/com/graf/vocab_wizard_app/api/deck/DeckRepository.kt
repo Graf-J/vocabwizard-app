@@ -13,6 +13,7 @@ import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateCardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
+import com.graf.vocab_wizard_app.data.dto.response.StatsResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.UpdateDeckResponseDto
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
@@ -72,6 +73,10 @@ class DeckRepository {
 
     fun updateDeck(payload: UpdateDeckRequestDto, deckId: String, callback: Callback<UpdateDeckResponseDto>) {
         deckApi.updateDeck(payload, deckId).enqueue(callback)
+    }
+
+    fun getStats(deckId: String, callback: Callback<List<StatsResponseDto>>) {
+        deckApi.getStats(deckId).enqueue(callback)
     }
 
     fun createCard(payload: CreateCardRequestDto, deckId: String, callback: Callback<CreateCardResponseDto>) {
