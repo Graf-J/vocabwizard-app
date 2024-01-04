@@ -17,11 +17,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class CreateDeckViewModel : ViewModel() {
-    private val _createDeckLiveData: MutableLiveData<CreateDeckResult> = MutableLiveData(CreateDeckResult.LOADING)
+    private val _createDeckLiveData: MutableLiveData<CreateDeckResult> = MutableLiveData()
     val createDeckLiveData: LiveData<CreateDeckResult> = _createDeckLiveData
-
-    lateinit var fromListAdapter: DropdownAdapter
-    lateinit var toListAdapter: DropdownAdapter
 
     private val deckRepository: DeckRepository = DeckRepository()
 

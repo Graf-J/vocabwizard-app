@@ -14,8 +14,6 @@ class JwtInterceptor : Interceptor {
         val sharedPref = MainActivity.activityContext().getSharedPreferences("Auth", Context.MODE_PRIVATE) ?: return chain.proceed(originalRequest)
         val accessToken = sharedPref.getString("AccessToken", "")
 
-
-        Log.d("Graf", "Interceptor: $accessToken")
         // Add JWT to the Authorization header
         val newRequest = originalRequest.newBuilder()
             .header("Authorization", "Bearer $accessToken")

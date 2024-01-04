@@ -18,7 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class UpdateDeckViewModel : ViewModel() {
-    private val _updateDeckLiveData: MutableLiveData<UpdateDeckResult> = MutableLiveData(UpdateDeckResult.LOADING)
+    private val _updateDeckLiveData: MutableLiveData<UpdateDeckResult> = MutableLiveData()
     val updateDeckLiveData: LiveData<UpdateDeckResult> = _updateDeckLiveData
 
     private val deckRepository: DeckRepository = DeckRepository()

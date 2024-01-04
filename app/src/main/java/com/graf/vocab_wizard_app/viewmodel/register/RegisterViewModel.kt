@@ -19,7 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RegisterViewModel : ViewModel() {
-    private val _registerLiveData: MutableLiveData<RegisterResult> = MutableLiveData(RegisterResult.LOADING)
+    private val _registerLiveData: MutableLiveData<RegisterResult> = MutableLiveData()
     val registerLiveData: LiveData<RegisterResult> = _registerLiveData
 
     private val authRepository: AuthRepository = AuthRepository()

@@ -18,7 +18,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class LoginViewModel : ViewModel() {
-    private val _loginLiveData: MutableLiveData<LoginResult> = MutableLiveData(LoginResult.LOADING)
+    private val _loginLiveData: MutableLiveData<LoginResult> = MutableLiveData()
     val loginLiveData: LiveData<LoginResult> = _loginLiveData
 
     private val authRepository: AuthRepository = AuthRepository()
