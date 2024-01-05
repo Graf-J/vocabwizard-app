@@ -1,7 +1,6 @@
 package com.graf.vocab_wizard_app.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import com.graf.vocab_wizard_app.R
-import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.UpdateDeckRequestDto
-import com.graf.vocab_wizard_app.databinding.FragmentLearnBinding
 import com.graf.vocab_wizard_app.databinding.FragmentUpdateDeckBinding
-import com.graf.vocab_wizard_app.ui.MainActivity
-import com.graf.vocab_wizard_app.viewmodel.createdeck.CreateDeckResult
 import com.graf.vocab_wizard_app.viewmodel.updatedeck.UpdateDeckResult
 import com.graf.vocab_wizard_app.viewmodel.updatedeck.UpdateDeckViewModel
 

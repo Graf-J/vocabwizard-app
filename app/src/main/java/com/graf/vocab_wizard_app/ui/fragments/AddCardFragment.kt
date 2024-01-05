@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.data.dto.request.CreateCardRequestDto
 import com.graf.vocab_wizard_app.databinding.FragmentAddCardBinding
-import com.graf.vocab_wizard_app.ui.MainActivity
 import com.graf.vocab_wizard_app.viewmodel.addword.AddCardResult
 import com.graf.vocab_wizard_app.viewmodel.addword.AddCardViewModel
 

@@ -7,7 +7,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.data.dto.response.DeckResponseDto
 import com.graf.vocab_wizard_app.databinding.ItemDeckBinding
-
 
 class DeckAdapter(
     private var decks: List<DeckResponseDto>,

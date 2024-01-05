@@ -1,6 +1,7 @@
-import android.animation.ValueAnimator
+package com.graf.vocab_wizard_app.viewmodel.learn
+
+import CardsResult
 import android.media.MediaPlayer
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -12,17 +13,12 @@ import com.graf.vocab_wizard_app.api.deck.DeckRepository
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
-import com.graf.vocab_wizard_app.viewmodel.deckoverview.DeleteDeckResult
-import com.graf.vocab_wizard_app.viewmodel.learn.ConfidenceResult
-import com.graf.vocab_wizard_app.viewmodel.learn.DeleteCardResult
-import com.graf.vocab_wizard_app.viewmodel.register.RegisterResult
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class CardsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel() {
-
     // Put Variables here to prevent Data loss during orientation change
     var isFront: Boolean = true
     var currentRotationAngle: Float = 0f
@@ -60,9 +56,19 @@ class CardsViewModel(private val savedStateHandle: SavedStateHandle) : ViewModel
                     try {
                         val type = object : TypeToken<ErrorResponseDto>(){}.type
                         val errorResponse: ErrorResponseDto? = gson.fromJson(response.errorBody()!!.charStream(), type)
-                        _cardsLiveData.postValue(CardsResult.ERROR(response.code(), errorResponse?.message ?: "Unknown Error"))
+                        _cardsLiveData.postValue(
+                            CardsResult.ERROR(
+                                response.code(),
+                                errorResponse?.message ?: "Unknown Error"
+                            )
+                        )
                     } catch (e: JsonParseException) {
-                        _cardsLiveData.postValue(CardsResult.ERROR(response.code(), "Unknown Error"))
+                        _cardsLiveData.postValue(
+                            CardsResult.ERROR(
+                                response.code(),
+                                "Unknown Error"
+                            )
+                        )
                     }
                 }
             }

@@ -12,7 +12,6 @@ import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
 import com.graf.vocab_wizard_app.ui.MainActivity
-import com.graf.vocab_wizard_app.viewmodel.register.RegisterResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

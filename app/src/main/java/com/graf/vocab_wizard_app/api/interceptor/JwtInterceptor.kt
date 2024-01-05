@@ -1,7 +1,6 @@
 package com.graf.vocab_wizard_app.api.interceptor
 
 import android.content.Context
-import android.util.Log
 import com.graf.vocab_wizard_app.ui.MainActivity
 import okhttp3.Interceptor
 import okhttp3.Response

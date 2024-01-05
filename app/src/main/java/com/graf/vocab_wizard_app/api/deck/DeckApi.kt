@@ -13,7 +13,6 @@ import com.graf.vocab_wizard_app.data.dto.response.StatsResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.UpdateDeckResponseDto
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

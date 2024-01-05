@@ -8,11 +8,9 @@ import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.graf.vocab_wizard_app.api.deck.DeckRepository
 import com.graf.vocab_wizard_app.data.dto.request.UpdateDeckRequestDto
-import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorArrayResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.UpdateDeckResponseDto
-import com.graf.vocab_wizard_app.viewmodel.createdeck.CreateDeckResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

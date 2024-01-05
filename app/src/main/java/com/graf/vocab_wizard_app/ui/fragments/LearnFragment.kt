@@ -1,17 +1,15 @@
 package com.graf.vocab_wizard_app.ui.fragments
 
 import CardsResult
-import CardsViewModel
+import com.graf.vocab_wizard_app.viewmodel.learn.CardsViewModel
 import android.animation.ValueAnimator
 import android.app.AlertDialog
 import android.content.Context
-import android.content.res.Configuration
 import android.media.AudioManager.STREAM_MUSIC
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +21,6 @@ import androidx.navigation.Navigation
 import com.graf.vocab_wizard_app.R
 import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.databinding.FragmentLearnBinding
-import com.graf.vocab_wizard_app.ui.MainActivity
 import com.graf.vocab_wizard_app.viewmodel.learn.ConfidenceResult
 import com.graf.vocab_wizard_app.viewmodel.learn.DeleteCardResult
 

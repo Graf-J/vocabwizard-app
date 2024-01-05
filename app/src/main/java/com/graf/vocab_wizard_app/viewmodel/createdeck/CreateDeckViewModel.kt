@@ -11,7 +11,6 @@ import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorArrayResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.ErrorResponseDto
-import com.graf.vocab_wizard_app.ui.adapter.DropdownAdapter
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

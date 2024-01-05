@@ -7,8 +7,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
 import com.graf.vocab_wizard_app.R
 
 class MainActivity : AppCompatActivity() {

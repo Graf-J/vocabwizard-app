@@ -1,6 +1,5 @@
 package com.graf.vocab_wizard_app.api.auth
 
-import com.graf.vocab_wizard_app.api.interceptor.JwtInterceptor
 import com.graf.vocab_wizard_app.config.AppConfig
 import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.RegisterRequestDto

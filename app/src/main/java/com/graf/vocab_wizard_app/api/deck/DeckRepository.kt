@@ -6,9 +6,7 @@ import com.graf.vocab_wizard_app.data.dto.request.ConfidenceRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateCardRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.CreateDeckRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.ImportDeckRequestDto
-import com.graf.vocab_wizard_app.data.dto.request.LoginRequestDto
 import com.graf.vocab_wizard_app.data.dto.request.UpdateDeckRequestDto
-import com.graf.vocab_wizard_app.data.dto.response.AuthResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateCardResponseDto
 import com.graf.vocab_wizard_app.data.dto.response.CreateDeckResponseDto
