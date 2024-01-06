@@ -277,10 +277,10 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                 examples.text = card.examples.joinToString("\n\n") { "- $it" }
 
                 // Synonyms
-                synonyms.text = card.synonyms.joinToString("\n\n") { "- $it" }
+                synonyms.text = card.synonyms.joinToString("\n") { "- $it" }
 
                 // Antonyms
-                antonyms.text = card.antonyms.joinToString("\n\n") { "- $it" }
+                antonyms.text = card.antonyms.joinToString("\n") { "- $it" }
             }
         }, 500)
     }
