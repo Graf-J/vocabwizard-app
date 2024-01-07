@@ -41,8 +41,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun addRegisterNavigationClickListener() {
         binding.registerNowTextView.setOnClickListener {
             view?.let {
-                Navigation.findNavController(it)
-                    .navigate(R.id.action_loginFragment_to_registerFragment)
+                Navigation.findNavController(it).navigate(R.id.action_loginFragment_to_registerFragment)
             }
         }
     }

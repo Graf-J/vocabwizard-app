@@ -42,6 +42,10 @@ class DeckAdapter(
         addLongPressListener(holder, deck)
     }
 
+    override fun getItemCount(): Int {
+        return decks.size
+    }
+
     private fun displayValues(holder: DeckViewHolder, deck: DeckResponseDto) {
         holder.binding.deckName.text = deck.name
         holder.binding.newCardsCount.text = deck.newCardCount.toString()
@@ -52,6 +56,7 @@ class DeckAdapter(
         holder.binding.deckCard.setOnClickListener {
             // Check if there are Cards to learn
             if ((deck.newCardCount + deck.oldCardCount) >= 1) {
+                // Check if User is connected to the Network
                 if (isNetworkAvailable()) {
                     val bundle = bundleOf("id" to deck.id)
                     view?.let {
@@ -67,6 +72,7 @@ class DeckAdapter(
     }
 
     private fun addLongPressListener(holder: DeckViewHolder, deck: DeckResponseDto) {
+        // Show Menu
         holder.binding.deckCard.setOnLongClickListener {
             val popupMenu = createPopupMenu(holder, deck)
             popupMenu.show()
@@ -79,6 +85,7 @@ class DeckAdapter(
         val popupMenu = PopupMenu(holder.itemView.context, holder.binding.deckCard)
         popupMenu.menuInflater.inflate(R.menu.deck_popup_menu, popupMenu.menu)
 
+        // Actions depending on which Menu-Item the User clicks
         popupMenu.setOnMenuItemClickListener { menuItem ->
             if (menuItem.itemId == R.id.addCard) {
                 val bundle = Bundle().apply {
@@ -144,10 +151,6 @@ class DeckAdapter(
             holder.itemView.context,
             ClipboardManager::class.java
         )?.setPrimaryClip(clip)
-    }
-
-    override fun getItemCount(): Int {
-        return decks.size
     }
 
     private fun isNetworkAvailable(): Boolean {

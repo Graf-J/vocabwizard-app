@@ -29,7 +29,7 @@ interface DeckApi {
     fun createDeck(@Body payload: CreateDeckRequestDto): Call<CreateDeckResponseDto>
 
     @POST("import")
-    fun importDeck(@Body paylaod: ImportDeckRequestDto): Call<ResponseBody>
+    fun importDeck(@Body payload: ImportDeckRequestDto): Call<ResponseBody>
 
     @PUT("{DeckId}")
     fun updateDeck(
@@ -43,11 +43,11 @@ interface DeckApi {
     @DELETE("{DeckId}")
     fun deleteDeck(@Path("DeckId") deckId: String): Call<ResponseBody>
 
-    @GET("{DeckId}/cards/learn")
-    fun getLearnCards(@Path("DeckId") deckId: String): Call<List<CardResponseDto>>
-
     @GET("{DeckId}/stats")
     fun getStats(@Path("DeckId") deckId: String): Call<List<StatsResponseDto>>
+
+    @GET("{DeckId}/cards/learn")
+    fun getLearnCards(@Path("DeckId") deckId: String): Call<List<CardResponseDto>>
 
     @POST("{DeckId}/cards")
     fun createCard(

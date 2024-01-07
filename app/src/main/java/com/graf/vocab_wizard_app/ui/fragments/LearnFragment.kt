@@ -41,8 +41,8 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
 
         initializeFlipAnimator()
         addListeners()
+        addObservers()
         loadCards()
-        startObservers()
 
         binding.cardFront.setLayerType(View.LAYER_TYPE_HARDWARE, null)
         binding.cardBack.setLayerType(View.LAYER_TYPE_HARDWARE, null)
@@ -60,7 +60,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
         addDeleteCardListener()
     }
 
-    private fun startObservers() {
+    private fun addObservers() {
         observeConfidence()
         observeDeleteCard()
     }
@@ -173,7 +173,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                             Navigation.findNavController(it).navigate(R.id.action_deckOverviewFragment_to_loginFragment)
                         }
                     } else {
-                        Toast.makeText(requireContext(), confidenceResult.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), translateErrorMessage(confidenceResult.message), Toast.LENGTH_SHORT).show()
                     }
                     enableButtons(true)
                     tryNavigateBack()
@@ -182,6 +182,7 @@ class LearnFragment : Fragment(R.layout.fragment_learn) {
                     enableButtons(true)
                     tryNavigateBack()
                 }
+                else -> {}
             }
         }
     }

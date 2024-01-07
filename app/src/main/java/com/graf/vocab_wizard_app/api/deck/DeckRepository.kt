@@ -45,22 +45,6 @@ class DeckRepository {
         deckApi.getAllDecks().enqueue(callback)
     }
 
-    fun deleteDeck(deckId: String, callback: Callback<ResponseBody>) {
-        deckApi.deleteDeck(deckId).enqueue(callback)
-    }
-
-    fun reverseDeck(deckId: String, callback: Callback<ResponseBody>) {
-        deckApi.reverseDeck(deckId).enqueue(callback)
-    }
-
-    fun getLearnCards(deckId: String, callback: Callback<List<CardResponseDto>>) {
-        deckApi.getLearnCards(deckId).enqueue(callback)
-    }
-
-    fun updateCardConfidence(payload: ConfidenceRequestDto, deckId: String, cardId: String, callback: Callback<ResponseBody>) {
-        deckApi.updateCardConfidence(payload, deckId, cardId).enqueue(callback)
-    }
-
     fun createDeck(payload: CreateDeckRequestDto, callback: Callback<CreateDeckResponseDto>) {
         deckApi.createDeck(payload).enqueue(callback)
     }
@@ -73,12 +57,28 @@ class DeckRepository {
         deckApi.updateDeck(payload, deckId).enqueue(callback)
     }
 
+    fun reverseDeck(deckId: String, callback: Callback<ResponseBody>) {
+        deckApi.reverseDeck(deckId).enqueue(callback)
+    }
+
+    fun deleteDeck(deckId: String, callback: Callback<ResponseBody>) {
+        deckApi.deleteDeck(deckId).enqueue(callback)
+    }
+
     fun getStats(deckId: String, callback: Callback<List<StatsResponseDto>>) {
         deckApi.getStats(deckId).enqueue(callback)
     }
 
+    fun getLearnCards(deckId: String, callback: Callback<List<CardResponseDto>>) {
+        deckApi.getLearnCards(deckId).enqueue(callback)
+    }
+
     fun createCard(payload: CreateCardRequestDto, deckId: String, callback: Callback<CreateCardResponseDto>) {
         deckApi.createCard(payload, deckId).enqueue(callback)
+    }
+
+    fun updateCardConfidence(payload: ConfidenceRequestDto, deckId: String, cardId: String, callback: Callback<ResponseBody>) {
+        deckApi.updateCardConfidence(payload, deckId, cardId).enqueue(callback)
     }
 
     fun deleteCard(deckId: String, cardId: String, callback: Callback<ResponseBody>) {

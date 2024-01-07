@@ -40,10 +40,11 @@ class UpdateDeckFragment : Fragment(R.layout.fragment_update_deck) {
     }
 
     private fun displayLanguageImages() {
+        // FromLanguage
         val fromLang = requireArguments().getString("fromLang")
         val fromLangResourceId = resources.getIdentifier(fromLang!!, "drawable", requireContext().packageName)
         binding.fromLangImage.setImageResource(fromLangResourceId)
-
+        // ToLanguage
         val toLang = requireArguments().getString("toLang")
         val toLangResourceId = resources.getIdentifier(toLang!!, "drawable", requireContext().packageName)
         binding.toLangImage.setImageResource(toLangResourceId)
@@ -79,7 +80,7 @@ class UpdateDeckFragment : Fragment(R.layout.fragment_update_deck) {
             val name = binding.deckNameTextInput.text.toString()
             val learningRate = binding.slider.value.toInt()
             val prevName = requireArguments().getString("name")!!
-            val prevLearningRate = requireArguments().getInt("learningRate")!!
+            val prevLearningRate = requireArguments().getInt("learningRate")
 
             val isNameValid = validateDeckName()
             val dataChanged = name != prevName || learningRate != prevLearningRate

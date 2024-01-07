@@ -120,9 +120,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
             6 -> getString(R.string.very_good)
             7 -> getString(R.string.excellent)
             8 -> getString(R.string.amazing)
-            else -> {
-                ""
-            }
+            else -> ""
         }
     }
 }

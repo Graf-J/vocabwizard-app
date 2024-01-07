@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
 
         // Check if the device is connected to the internet
         if (!isConnectedToInternet()) {
-            Toast.makeText(this, "Not connected to the internet", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.no_internet), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -35,18 +35,9 @@ class MainActivity : AppCompatActivity() {
             getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
 
         if (connectivityManager != null) {
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 val network = connectivityManager.activeNetwork
                 val capabilities = connectivityManager.getNetworkCapabilities(network)
-                capabilities != null &&
-                        (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
-                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
-            } else {
-                // For devices below Android M
-                @Suppress("DEPRECATION")
-                val networkInfo = connectivityManager.activeNetworkInfo
-                networkInfo != null && networkInfo.isConnected
-            }
+                return capabilities != null && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR))
         }
 
         return false

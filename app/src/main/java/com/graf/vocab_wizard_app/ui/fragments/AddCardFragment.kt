@@ -95,16 +95,16 @@ class AddCardFragment : Fragment(R.layout.fragment_add_card) {
                     // Disable
                     binding.submitWordButton.isEnabled = false
                     binding.wordLayout.isEnabled = false
-
                     binding.errorText.visibility = View.INVISIBLE
+                    // Reset Input
                     binding.errorText.text = ""
                 }
                 is AddCardResult.ERROR -> {
                     // Enable
                     binding.submitWordButton.isEnabled = true
                     binding.wordLayout.isEnabled = true
-                    // Toast
                     binding.errorText.visibility = View.VISIBLE
+                    // Toast
                     binding.errorText.text = translateErrorMessage(it.message)
                 }
                 is AddCardResult.SUCCESS -> {

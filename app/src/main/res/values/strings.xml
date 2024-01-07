@@ -66,4 +66,5 @@
     <string name="no_decks">No Decks</string>
     <string name="no_cards">No Cards</string>
     <string name="please_enter_word">Please enter a word in the following language</string>
+    <string name="no_internet">No connection to the internet</string>
 </resources>

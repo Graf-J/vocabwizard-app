@@ -74,7 +74,7 @@ Hier kann über das einfügen einer Deck Id ein Deck einer anderen Person import
 ### Deck Übersicht
 Drückt man lange auf ein Deck erscheint ein Menü mit Operationen, welche auf ein Deck ausgeübt werden können.<br>
 <img width="200" src="./readme/deckfeatures.png"><br>
-Im folgenden werden diese Operationen sequentiell von oben nach unten erläutert.
+Im folgenden werden diese Operationen sequenziell von oben nach unten erläutert.
 
 ### Add Card
 Abhängig davon, mit welchen Sprachen das Deck bei der Erstellung konfiguriert wurde, muss hier ein Wort in der entsprechenden Sprache eingegeben werden. Die App ist (oftmals) im Stande sowohl die Übersetzung als auch andere Eigenschaften des Wortes selbständig zu generieren.<br>
@@ -131,7 +131,7 @@ Für die App an sich sind mir aktuell keine Probleme bekannt. Das einzige Proble
 - [x] Dokumentation von Known Issues & Lösungsversuche
 
 ### Pflichtanforderungen (Google Docs)
-- [x] App kann von Englisch in Deutsch, Französisch, Italienisch und Spanisch übersetzen und andersherung
+- [x] App kann von Englisch in Deutsch, Französisch, Italienisch und Spanisch übersetzen und andersherum
 - [x] Karteikarten werden in Decks organisiert
 - [x] Zum Hinzufügen einer Karteikarte muss nur das Wort eingegeben werden, die Übersetzung, sowohl hilfreiche Informationen wie z.B. Aussprache, Definition, Beispiele oder Synonyme werden selbständig für die englische Sprache generiert
 - [x] Nutzer sollen sich Registrieren und Anmleden können, um Geräteunabhängig auf die Karteikarten zugreifen zu können
@@ -141,7 +141,7 @@ Für die App an sich sind mir aktuell keine Probleme bekannt. Das einzige Proble
 ### Optionale Anforderungen (Google Docs)
 - [x] Die Karten eines Stapels können “umgedreht” werden, sodass wenn zuvor die Lernrichtung deutsch -> englisch war sie danach englisch -> deutsch ist
 - [x] Kartendecks anderer Nutzer können über den Namen importiert werden (wurde mit ID anstatt Name implementiert)
-- [x] Ansprechendes Design (meinermeinung nach ist das Design ansprechend &#128516; Ich habe auch verschiedene Farben für die unterschiedlichen Themes eingesetzt etc.)
+- [x] Ansprechendes Design (meiner Meinung nach ist das Design ansprechend &#128516; Ich habe auch verschiedene Farben für die unterschiedlichen Themes eingesetzt etc.)
 
 ### Bonus Features
-- [x] Der Nutzer kann Statistiken für jedes Deck einsehen um sich einen Überblick über die gelernten Karten zu verschaffen
+- [x] Der Nutzer kann Statistiken für jedes Deck einsehen, um sich einen Überblick über die gelernten Karten zu verschaffen

@@ -35,8 +35,9 @@ class DeckOverviewFragment : Fragment(R.layout.fragment_deck_overview) {
     ): View? {
         _binding = FragmentDeckOverviewBinding.inflate(layoutInflater, container, false)
 
-        // Prevent to Jump Back to Login
+        // Prevent to Jump Back to Login via Back-Button
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) { }
+
         addListeners()
         addObservers()
         getDecks()
